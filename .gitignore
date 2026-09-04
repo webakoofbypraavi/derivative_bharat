@@ -15,6 +15,7 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
+ef10027d-*.jpg
 
 # Wrangler / Cloudflare
 .wrangler/
