@@ -28,14 +28,12 @@ import {
   destinations,
   experienceCategories,
   images,
-  seasonalThemes,
-  stats,
   stories,
   testimonials,
   tours,
+  type Destination,
 } from "@/data/site";
 import { Link } from "@/lib/simple-router";
-import { cn } from "@/lib/utils";
 import { jsonLdScript, organizationJsonLd, pageMeta } from "@/lib/seo";
 
 export function getHomeHead() {
@@ -53,11 +51,6 @@ export function getHomeHead() {
 
 export function HomePage() {
   const featuredTours = tours.filter((tour) => tour.trending || tour.popular).slice(0, 6);
-  const seasonalFeatureCards = seasonalThemes.slice(0, 4);
-  const seasonalWideCard = seasonalThemes[4];
-  const seasonalHeroImage =
-    experienceCategories.find((category) => category.slug === "architecture-tours")?.image ??
-    images.signatureJourney;
 
   return (
     <>
@@ -190,86 +183,7 @@ export function HomePage() {
 
       <TrendingDestinationsSection />
 
-      <section className="bg-paper-deep">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-16 lg:grid-cols-[0.36fr_0.64fr] lg:items-stretch lg:px-8">
-          <div className="flex h-full flex-col">
-            <div className="max-w-md">
-              <p className="eyebrow">Seasonal edits</p>
-              <h2 className="mt-3 text-3xl font-bold leading-tight text-primary sm:text-4xl">
-                Travel with the year
-              </h2>
-              <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                The calendar follows the country: monsoon forts, winter old-city breakfasts,
-                festival workshops and architecture routes that need gentler weather.
-              </p>
-            </div>
-
-            <div className="mt-7 grid grid-cols-2 gap-3">
-              {stats.map((stat) => (
-                <div
-                  className="rounded-md border bg-background px-4 py-5 text-center shadow-card"
-                  key={stat.label}
-                >
-                  <div className="font-display text-2xl font-bold leading-none text-primary sm:text-3xl">
-                    {stat.value}
-                  </div>
-                  <div className="mt-2 text-[0.68rem] font-semibold uppercase leading-4 text-muted-foreground">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-5 min-h-[360px] flex-1 overflow-hidden rounded-md shadow-panel">
-              <img
-                alt=""
-                className="h-full min-h-[360px] w-full object-cover"
-                loading="lazy"
-                src={seasonalHeroImage}
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            {seasonalFeatureCards.map((theme) => (
-              <article
-                className="group flex min-h-[270px] flex-col overflow-hidden rounded-md border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-lift"
-                key={theme.name}
-              >
-                <img
-                  alt=""
-                  className="h-36 w-full object-cover transition duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  src={theme.image}
-                />
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="text-xl font-bold text-primary">{theme.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{theme.note}</p>
-                </div>
-              </article>
-            ))}
-
-            {seasonalWideCard ? (
-              <article className="group relative min-h-[260px] overflow-hidden rounded-md border bg-primary shadow-card transition hover:-translate-y-1 hover:shadow-lift sm:col-span-2">
-                <img
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  loading="lazy"
-                  src={seasonalWideCard.image}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/55 to-transparent" />
-                <div className="relative flex min-h-[260px] max-w-md flex-col justify-end p-6 text-primary-foreground sm:p-7">
-                  <p className="eyebrow text-gold">City stories</p>
-                  <h3 className="mt-3 text-2xl font-bold leading-tight">{seasonalWideCard.name}</h3>
-                  <p className="mt-3 text-sm leading-6 text-primary-foreground/78">
-                    {seasonalWideCard.note}
-                  </p>
-                </div>
-              </article>
-            ) : null}
-          </div>
-        </div>
-      </section>
+      <RegionalDestinationsSection />
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
         <SectionHeader
@@ -318,7 +232,6 @@ export function HomePage() {
 }
 
 type PortalOffer = {
-  className?: string;
   cta?: string;
   description: string;
   eyebrow: string;
@@ -342,7 +255,6 @@ function TravelPortalOffers() {
 
   const offers: PortalOffer[] = [
     {
-      className: "lg:col-span-4",
       description: `Sunrise boat, ghats and weaving lanes from INR ${varanasiDawn.price.toLocaleString(
         "en-IN",
       )}.`,
@@ -353,7 +265,6 @@ function TravelPortalOffers() {
       to: `/experiences/${varanasiDawn.slug}`,
     },
     {
-      className: "lg:col-span-8",
       description: `Three days through ghat forts, caves and village kitchens from INR ${sahyadriRoute.price.toLocaleString(
         "en-IN",
       )}.`,
@@ -364,7 +275,6 @@ function TravelPortalOffers() {
       to: `/experiences/${sahyadriRoute.slug}`,
     },
     {
-      className: "lg:col-span-6",
       description: "Private historians, city researchers and specialist access for careful groups.",
       eyebrow: "Escorted by specialists",
       icon: Users,
@@ -373,7 +283,6 @@ function TravelPortalOffers() {
       to: "/plan",
     },
     {
-      className: "lg:col-span-3",
       description: "Choose your city, pace, language and route lens in one simple request.",
       eyebrow: "Custom plan",
       icon: CalendarCheck,
@@ -382,7 +291,6 @@ function TravelPortalOffers() {
       to: "/plan",
     },
     {
-      className: "lg:col-span-3",
       description: `Eight tastings across the walled city from INR ${oldDelhiFood.price.toLocaleString(
         "en-IN",
       )}.`,
@@ -393,7 +301,6 @@ function TravelPortalOffers() {
       to: `/experiences/${oldDelhiFood.slug}`,
     },
     {
-      className: "lg:col-span-4",
       description: `Gothic, Deco and port-city stories from INR ${mumbaiWalk.price.toLocaleString(
         "en-IN",
       )}.`,
@@ -404,7 +311,6 @@ function TravelPortalOffers() {
       to: `/experiences/${mumbaiWalk.slug}`,
     },
     {
-      className: "lg:col-span-4",
       description: `Guild streets, block printing and studio visits from INR ${jaipurCraft.price.toLocaleString(
         "en-IN",
       )}.`,
@@ -415,7 +321,6 @@ function TravelPortalOffers() {
       to: `/experiences/${jaipurCraft.slug}`,
     },
     {
-      className: "lg:col-span-4",
       description: "From Deccan lanes to Goan village houses, choose the old-city pace you want.",
       eyebrow: "City pairings",
       icon: Route,
@@ -427,31 +332,15 @@ function TravelPortalOffers() {
 
   return (
     <section className="bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-2xl font-extrabold tracking-normal text-foreground">
-              Curated heritage offers
-            </h2>
-            <p className="mt-2 max-w-[21rem] text-sm leading-6 text-muted-foreground sm:max-w-2xl">
-              Book ready walks, escorted city routes, or a private itinerary built around your
-              dates.
-            </p>
-          </div>
-          <div className="inline-flex w-fit rounded-full bg-secondary p-1 shadow-card">
-            <span className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground">
-              Ready Routes
-            </span>
-            <Link
-              className="rounded-full px-4 py-2 text-xs font-bold text-muted-foreground transition hover:text-primary"
-              to="/plan"
-            >
-              Private Plans
-            </Link>
-          </div>
+      <div className="mx-auto max-w-7xl px-4 pb-10 pt-7 lg:px-0">
+        <div>
+          <p className="eyebrow">Heritage journeys</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+            Book ready walks, escorted city routes, or a private itinerary built around your dates.
+          </p>
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:auto-rows-[208px] lg:grid-cols-12">
+        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {offers.map((offer) => (
             <PortalOfferCard key={offer.title} offer={offer} />
           ))}
@@ -466,35 +355,163 @@ function PortalOfferCard({ offer }: { offer: PortalOffer }) {
 
   return (
     <Link
-      className={cn(
-        "group relative flex min-h-[210px] overflow-hidden rounded-lg bg-primary p-5 text-primary-foreground shadow-card transition hover:-translate-y-1 hover:shadow-lift",
-        offer.className,
-      )}
+      className="group flex h-full flex-col overflow-hidden rounded-md border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-lift"
       to={offer.to}
+    >
+      <span className="aspect-[4/3] overflow-hidden bg-paper-deep">
+        <img
+          alt=""
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          loading="lazy"
+          src={offer.image}
+        />
+      </span>
+      <span className="flex flex-1 flex-col p-5">
+        <span className="inline-flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-accent">
+          <Icon className="size-4" />
+          {offer.eyebrow}
+        </span>
+        <span className="mt-3 block text-xl font-bold leading-tight text-primary">
+          {offer.title}
+        </span>
+        <span className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">
+          {offer.description}
+        </span>
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-accent">
+          {offer.cta ?? "View More"}
+          <ArrowRight className="size-4 transition group-hover:translate-x-1" />
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+type RegionKey = "north" | "south" | "east" | "west" | "central";
+
+const regionalDestinationTabs: {
+  key: RegionKey;
+  label: string;
+  slugs: string[];
+}[] = [
+  {
+    key: "north",
+    label: "North India",
+    slugs: ["varanasi", "delhi", "jaipur", "kolkata", "hyderabad", "mumbai", "goa"],
+  },
+  {
+    key: "south",
+    label: "South India",
+    slugs: ["hyderabad", "goa", "mumbai", "pune", "kolkata", "delhi", "jaipur"],
+  },
+  {
+    key: "east",
+    label: "East India",
+    slugs: ["kolkata", "varanasi", "delhi", "jaipur", "hyderabad", "mumbai", "goa"],
+  },
+  {
+    key: "west",
+    label: "West India",
+    slugs: ["mumbai", "goa", "pune", "jaipur", "delhi", "hyderabad", "varanasi"],
+  },
+  {
+    key: "central",
+    label: "Central India",
+    slugs: ["pune", "hyderabad", "varanasi", "mumbai", "delhi", "jaipur", "kolkata"],
+  },
+];
+
+function RegionalDestinationsSection() {
+  const [activeRegion, setActiveRegion] = useState<RegionKey>("north");
+  const activeTab =
+    regionalDestinationTabs.find((tab) => tab.key === activeRegion) ?? regionalDestinationTabs[0];
+  const activeDestinations = activeTab.slugs
+    .map((slug) => destinations.find((destination) => destination.slug === slug))
+    .filter((destination): destination is Destination => Boolean(destination))
+    .slice(0, 7);
+  const [featuredDestination, ...secondaryDestinations] = activeDestinations;
+
+  return (
+    <section className="bg-background">
+      <div className="mx-auto max-w-[1440px] px-4 py-16 lg:px-8">
+        <h2 className="max-w-5xl text-4xl font-extrabold leading-tight text-slate-700 sm:text-5xl lg:text-6xl">
+          Explore Top Destinations by Region
+        </h2>
+
+        <div className="mt-8 border-b border-border">
+          <div className="hide-scrollbar flex gap-8 overflow-x-auto sm:gap-12" role="tablist">
+            {regionalDestinationTabs.map((tab) => {
+              const isActive = tab.key === activeRegion;
+
+              return (
+                <button
+                  aria-selected={isActive}
+                  className={`shrink-0 border-b-[3px] px-0 pb-5 text-base font-semibold transition sm:text-lg ${
+                    isActive
+                      ? "border-accent text-slate-800"
+                      : "border-transparent text-slate-600 hover:text-primary"
+                  }`}
+                  key={tab.key}
+                  onClick={() => setActiveRegion(tab.key)}
+                  role="tab"
+                  type="button"
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {featuredDestination ? (
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_1.5fr]">
+            <RegionalDestinationCard destination={featuredDestination} featured />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {secondaryDestinations.map((destination) => (
+                <RegionalDestinationCard destination={destination} key={destination.slug} />
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function RegionalDestinationCard({
+  destination,
+  featured = false,
+}: {
+  destination: Destination;
+  featured?: boolean;
+}) {
+  const routeCount = tours.filter((tour) => tour.destinationSlug === destination.slug).length;
+  const journeyLabel = `${Math.max(routeCount, 1)}+ ROUTES`;
+
+  return (
+    <Link
+      className={`group relative block min-h-[230px] overflow-hidden rounded-md bg-primary shadow-card transition hover:-translate-y-1 hover:shadow-lift ${
+        featured ? "min-h-[360px] lg:min-h-[500px]" : ""
+      }`}
+      params={{ city: destination.slug }}
+      to="/destinations/$city"
     >
       <img
         alt=""
         className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
         loading="lazy"
-        src={offer.image}
+        src={destination.image}
       />
-      <span className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/48 to-black/12" />
-      <span className="relative flex h-full max-w-sm flex-col justify-between">
-        <span>
-          <span className="inline-flex items-center gap-2 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-gold">
-            <Icon className="size-4" />
-            {offer.eyebrow}
-          </span>
-          <span className="mt-3 block text-xl font-extrabold leading-tight sm:text-2xl">
-            {offer.title}
-          </span>
-          <span className="mt-2 block text-xs font-semibold leading-5 text-primary-foreground/86 sm:text-sm">
-            {offer.description}
-          </span>
+      <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/24 to-transparent" />
+      <span className={`absolute ${featured ? "inset-x-7 bottom-7" : "inset-x-5 bottom-5"}`}>
+        <span
+          className={`block font-extrabold leading-tight text-white drop-shadow ${
+            featured ? "text-3xl sm:text-4xl" : "text-2xl"
+          }`}
+        >
+          {destination.city}
         </span>
-        <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-full bg-background px-3 py-2 text-xs font-extrabold text-primary shadow-card">
-          {offer.cta ?? "View More"}
-          <ArrowRight className="size-3.5 transition group-hover:translate-x-1" />
+        <span className="mt-2 inline-flex text-xs font-extrabold uppercase tracking-wide text-white">
+          {journeyLabel}
         </span>
       </span>
     </Link>
