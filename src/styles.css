@@ -198,6 +198,15 @@
   padding-right: 1.25rem;
 }
 
+.mobile-nav-trigger {
+  position: fixed;
+  top: 4.65rem;
+  right: 1rem;
+  z-index: 50;
+  display: flex;
+  flex-shrink: 0;
+}
+
 @keyframes db-fade-up {
   from {
     opacity: 0;
@@ -229,5 +238,11 @@
   .db-carousel-track {
     animation: none !important;
     transform: none !important;
+  }
+}
+
+@media (width >= 64rem) {
+  .mobile-nav-trigger {
+    display: none;
   }
 }

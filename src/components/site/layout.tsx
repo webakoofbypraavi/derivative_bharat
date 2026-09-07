@@ -42,7 +42,7 @@ function BrandMark({ className }: { className?: string }) {
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-paper text-foreground">
+    <div className="min-h-screen overflow-x-clip bg-paper text-foreground">
       <TopBar />
       <Navbar />
       <main>{children}</main>
@@ -82,11 +82,14 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-paper/95 backdrop-blur">
-      <nav className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 lg:px-8">
-        <Link className="group inline-flex items-center gap-3" to="/">
+      <nav className="relative mx-auto flex h-18 w-full max-w-7xl items-center justify-between px-4 lg:px-8">
+        <Link
+          className="group inline-flex min-w-0 max-w-[calc(100%-3.5rem)] items-center gap-3"
+          to="/"
+        >
           <BrandMark />
-          <span className="leading-tight">
-            <span className="block font-display text-xl font-bold text-primary">
+          <span className="min-w-0 leading-tight">
+            <span className="block truncate font-display text-xl font-bold text-primary">
               Derivative Bharat
             </span>
             <span className="block text-[0.68rem] font-semibold uppercase text-muted-foreground">
@@ -227,10 +230,15 @@ function MegaMenu({
 
 function MobileNav() {
   return (
-    <div className="lg:hidden">
+    <div className="mobile-nav-trigger">
       <Sheet>
         <SheetTrigger asChild>
-          <Button aria-label="Open navigation" size="icon" variant="ghost">
+          <Button
+            aria-label="Open navigation"
+            className="border bg-background/95 text-foreground shadow-card"
+            size="icon"
+            variant="ghost"
+          >
             <Menu className="size-5" />
           </Button>
         </SheetTrigger>

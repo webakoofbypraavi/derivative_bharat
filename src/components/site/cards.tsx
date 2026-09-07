@@ -63,7 +63,7 @@ export function SearchPanel({
     <form
       action="/experiences"
       className={cn(
-        "grid gap-3 rounded-md border bg-background p-4 shadow-panel md:grid-cols-[1fr_1fr_1fr_auto]",
+        "grid gap-3 rounded-lg border border-border/80 bg-background p-3 shadow-panel md:grid-cols-[1fr_1fr_1fr_auto] md:p-4",
         compact && "shadow-card md:grid-cols-[1fr_1fr_auto]",
         className,
       )}
@@ -75,7 +75,7 @@ export function SearchPanel({
         </span>
         <select
           aria-label="Destination"
-          className="h-11 w-full rounded-md border bg-paper px-3 text-sm outline-none transition focus:ring-1 focus:ring-ring"
+          className="h-12 w-full rounded-md border bg-paper px-3 text-sm font-semibold text-foreground outline-none transition focus:ring-1 focus:ring-ring"
           defaultValue=""
           name="destination"
         >
@@ -94,7 +94,7 @@ export function SearchPanel({
         </span>
         <select
           aria-label="Experience"
-          className="h-11 w-full rounded-md border bg-paper px-3 text-sm outline-none transition focus:ring-1 focus:ring-ring"
+          className="h-12 w-full rounded-md border bg-paper px-3 text-sm font-semibold text-foreground outline-none transition focus:ring-1 focus:ring-ring"
           defaultValue=""
           name="category"
         >
@@ -112,11 +112,11 @@ export function SearchPanel({
           <span className="mb-1.5 block text-xs font-semibold uppercase text-muted-foreground">
             Departure
           </span>
-          <span className="flex h-11 items-center gap-2 rounded-md border bg-paper px-3">
+          <span className="flex h-12 items-center gap-2 rounded-md border bg-paper px-3">
             <CalendarDays className="size-4 text-muted-foreground" />
             <input
               aria-label="Departure month"
-              className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+              className="min-w-0 flex-1 bg-transparent text-sm font-semibold text-foreground outline-none placeholder:text-muted-foreground"
               name="month"
               placeholder="Any month"
               type="text"
@@ -125,7 +125,7 @@ export function SearchPanel({
         </label>
       ) : null}
 
-      <Button className="h-11 self-end px-5" type="submit">
+      <Button className="h-12 self-end px-6 text-base font-bold" type="submit">
         <Search className="size-4" />
         Search
       </Button>
