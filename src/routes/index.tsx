@@ -100,6 +100,8 @@ export function HomePage() {
         <SearchPanel className="border-gold/30" />
       </div>
 
+      <TrendingDestinationsSection />
+
       <TravelPortalOffers />
 
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-6 lg:px-8">
@@ -180,8 +182,6 @@ export function HomePage() {
           ))}
         </CarouselRow>
       </section>
-
-      <TrendingDestinationsSection />
 
       <RegionalDestinationsSection />
 
@@ -546,23 +546,37 @@ function TrendingDestinationsSection() {
       return;
     }
 
-    const timer = window.setInterval(() => {
+    let animationFrame = 0;
+    let previousTime = 0;
+    const pixelsPerSecond = 32;
+
+    function moveCarousel(timestamp: number) {
       const track = trackRef.current;
 
       if (!track) {
         return;
       }
 
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      const nextScroll = track.scrollLeft + 190;
+      if (!previousTime) {
+        previousTime = timestamp;
+      }
 
-      track.scrollTo({
-        behavior: "smooth",
-        left: nextScroll >= maxScroll - 16 ? 0 : nextScroll,
-      });
-    }, 2400);
+      const elapsed = timestamp - previousTime;
+      previousTime = timestamp;
+      track.scrollLeft += (pixelsPerSecond * elapsed) / 1000;
 
-    return () => window.clearInterval(timer);
+      const loopPoint = track.scrollWidth / 3;
+
+      if (track.scrollLeft >= loopPoint) {
+        track.scrollLeft -= loopPoint;
+      }
+
+      animationFrame = window.requestAnimationFrame(moveCarousel);
+    }
+
+    animationFrame = window.requestAnimationFrame(moveCarousel);
+
+    return () => window.cancelAnimationFrame(animationFrame);
   }, [isPaused, mode]);
 
   function scrollSpotlights(direction: "left" | "right") {
@@ -629,31 +643,40 @@ function TrendingDestinationsSection() {
           </Button>
 
           <div className="hide-scrollbar overflow-x-auto scroll-smooth px-1 md:px-8" ref={trackRef}>
-            <div className="flex min-w-max gap-5 py-2">
-              {spotlightItems.map((item) => (
-                <Link
-                  className="group block w-[140px] shrink-0 text-center sm:w-[160px] lg:w-[174px]"
-                  key={`${mode}-${item.label}`}
-                  {...("params" in item ? { params: item.params } : {})}
-                  to={item.to}
+            <div className="flex w-max py-2">
+              {[0, 1, 2].map((segment) => (
+                <div
+                  aria-hidden={segment > 0 ? "true" : undefined}
+                  className="flex gap-5 pr-5"
+                  inert={segment > 0 ? true : undefined}
+                  key={segment}
                 >
-                  <span className="relative block h-[210px] overflow-hidden rounded-full bg-paper-deep shadow-card ring-1 ring-border transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lift sm:h-[238px] lg:h-[258px]">
-                    <img
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                      loading="lazy"
-                      src={item.image}
-                    />
-                    <span className="absolute inset-0 bg-gradient-to-b from-primary/58 via-primary/8 to-black/52" />
-                    <span className="absolute inset-x-4 top-7 font-display text-2xl font-bold leading-tight text-primary-foreground drop-shadow sm:text-3xl">
-                      {item.label}
-                    </span>
-                    <span className="absolute inset-x-5 bottom-5 inline-flex items-center justify-center gap-1 rounded-full bg-background/90 px-3 py-1.5 text-[0.68rem] font-bold text-primary shadow-card backdrop-blur">
-                      <MapPin className="size-3" />
-                      <span className="line-clamp-1">{item.meta}</span>
-                    </span>
-                  </span>
-                </Link>
+                  {spotlightItems.map((item) => (
+                    <Link
+                      className="group block w-[140px] shrink-0 text-center sm:w-[160px] lg:w-[174px]"
+                      key={`${segment}-${mode}-${item.label}`}
+                      {...("params" in item ? { params: item.params } : {})}
+                      to={item.to}
+                    >
+                      <span className="relative block h-[210px] overflow-hidden rounded-full bg-paper-deep shadow-card ring-1 ring-border transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lift sm:h-[238px] lg:h-[258px]">
+                        <img
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                          loading="lazy"
+                          src={item.image}
+                        />
+                        <span className="absolute inset-0 bg-gradient-to-b from-primary/58 via-primary/8 to-black/52" />
+                        <span className="absolute inset-x-4 top-7 font-display text-2xl font-bold leading-tight text-primary-foreground drop-shadow sm:text-3xl">
+                          {item.label}
+                        </span>
+                        <span className="absolute inset-x-5 bottom-5 inline-flex items-center justify-center gap-1 rounded-full bg-background/90 px-3 py-1.5 text-[0.68rem] font-bold text-primary shadow-card backdrop-blur">
+                          <MapPin className="size-3" />
+                          <span className="line-clamp-1">{item.meta}</span>
+                        </span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
