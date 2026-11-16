@@ -7,6 +7,7 @@ import { Link, useCurrentLocation, useSearchParams } from "@/lib/simple-router";
 import { pageMeta } from "@/lib/seo";
 import { AboutPage, getAboutHead } from "@/routes/about";
 import { ContactPage, getContactHead } from "@/routes/contact";
+import { AdminPage } from "@/routes/admin";
 import { DestinationDetailPage, getDestinationHead } from "@/routes/destinations/$city";
 import { DestinationsPage, getDestinationsHead } from "@/routes/destinations";
 import { ExperienceDetailPage, getExperienceHead } from "@/routes/experiences/$slug";
@@ -29,11 +30,28 @@ export function App() {
     applyHead(route.head);
   }, [route.head]);
 
-  return <SiteLayout>{route.element}</SiteLayout>;
+  return location.pathname === "/admin" ? (
+    <>{route.element}</>
+  ) : (
+    <SiteLayout>{route.element}</SiteLayout>
+  );
 }
 
 function matchRoute(pathname: string, searchParams: URLSearchParams): RouteMatch {
   const parts = pathname.split("/").filter(Boolean).map(decodeURIComponent);
+
+  if (pathname === "/admin") {
+    return {
+      element: <AdminPage key="admin" />,
+      head: {
+        meta: pageMeta({
+          title: "Admin CMS | Derivative Bharat",
+          description: "Derivative Bharat content management studio.",
+          path: "/admin",
+        }),
+      },
+    };
+  }
 
   if (pathname === "/") {
     return {

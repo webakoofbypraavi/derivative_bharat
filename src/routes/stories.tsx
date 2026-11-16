@@ -39,7 +39,7 @@ export function StoriesPage() {
       <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
           <p className="eyebrow text-gold">Stories</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Field notes from streets, kitchens and workshops.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/78">
@@ -71,7 +71,7 @@ export function StoriesPage() {
                 {leadStory.readTime}
               </span>
             </div>
-            <h2 className="mt-4 text-4xl font-bold text-primary">{leadStory.title}</h2>
+            <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">{leadStory.title}</h2>
             <p className="mt-4 text-base leading-8 text-muted-foreground">{leadStory.excerpt}</p>
             <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-accent">
               Continue reading
@@ -119,7 +119,7 @@ export function StoriesPage() {
         <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <SectionHeader
             action={
-              <Button asChild variant="outline">
+              <Button asChild className="w-full sm:w-auto" variant="outline">
                 <Link to="/experiences">
                   Turn Notes Into a Route
                   <ArrowRight className="size-4" />

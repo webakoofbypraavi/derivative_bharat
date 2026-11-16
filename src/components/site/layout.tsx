@@ -1,5 +1,5 @@
 import { ArrowRight, ChevronDown, Mail, MapPin, Menu, Phone, Search, Send } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import brandLogo from "@/assets/derivative-bharat-logo.jpg";
+import brandLogo from "@/assets/derivative-bharat-logo-upscaled.webp";
 import { contact, destinations, experienceCategories, tours } from "@/data/site";
 import { Link } from "@/lib/simple-router";
 import { cn } from "@/lib/utils";
@@ -31,11 +31,11 @@ function BrandMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-gold/50 bg-background p-0.5 shadow-card",
+        "flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full sm:size-12",
         className,
       )}
     >
-      <img alt="" className="h-full w-full rounded-full object-cover" src={brandLogo} />
+      <img alt="" className="h-full w-full scale-125 rounded-full object-cover" src={brandLogo} />
     </span>
   );
 }
@@ -55,7 +55,7 @@ function TopBar() {
   return (
     <div className="bg-primary text-primary-foreground">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2 text-xs sm:flex-row sm:items-center sm:justify-between lg:px-8">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1">
           <a className="inline-flex items-center gap-1.5 hover:text-gold" href={contact.phoneHref}>
             <Phone className="size-3.5" />
             {contact.phone}
@@ -68,7 +68,7 @@ function TopBar() {
             {contact.email}
           </a>
         </div>
-        <div className="inline-flex items-center gap-1.5 text-primary-foreground/80">
+        <div className="hidden items-center gap-1.5 text-primary-foreground/80 sm:inline-flex">
           <MapPin className="size-3.5" />
           Small-group heritage journeys across India
         </div>
@@ -82,14 +82,14 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-paper/95 backdrop-blur">
-      <nav className="relative mx-auto flex h-18 w-full max-w-7xl items-center justify-between px-4 lg:px-8">
+      <nav className="relative mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:h-18 lg:px-8">
         <Link
-          className="group inline-flex min-w-0 max-w-[calc(100%-3.5rem)] items-center gap-3"
+          className="group inline-flex min-w-0 max-w-[calc(100%-4rem)] items-center gap-2 pr-2 sm:gap-3 sm:pr-0"
           to="/"
         >
           <BrandMark />
           <span className="min-w-0 leading-tight">
-            <span className="block truncate font-display text-xl font-bold text-primary">
+            <span className="block truncate font-display text-lg font-bold text-primary sm:text-xl">
               Derivative Bharat
             </span>
             <span className="block text-[0.68rem] font-semibold uppercase text-muted-foreground">
@@ -211,18 +211,67 @@ function MegaMenu({
   label: string;
   to: "/experiences" | "/destinations";
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (event.target instanceof Node && !menuRef.current?.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="group relative">
-      <Link
-        activeProps={{ className: "text-primary" }}
-        className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-foreground/80 hover:bg-secondary hover:text-primary"
-        to={to}
+    <div className="relative" ref={menuRef}>
+      <button
+        aria-controls={menuId}
+        aria-expanded={isOpen}
+        className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-primary aria-expanded:bg-secondary aria-expanded:text-primary"
+        onClick={() => setIsOpen((open) => !open)}
+        ref={triggerRef}
+        type="button"
       >
         {label}
-        <ChevronDown className="size-4 transition group-hover:rotate-180" />
-      </Link>
-      <div className="invisible absolute left-0 top-full pt-3 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-        <div className="rounded-md border bg-background shadow-panel">{children}</div>
+        <ChevronDown className={`size-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+      <div
+        className={`absolute left-0 top-full z-50 pt-3 transition duration-150 ${
+          isOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+        }`}
+        id={menuId}
+        onClick={(event) => {
+          if ((event.target as HTMLElement).closest("a")) setIsOpen(false);
+        }}
+      >
+        <div className="rounded-md border bg-background shadow-panel">
+          {children}
+          <Link
+            className="flex items-center justify-end gap-2 border-t px-5 py-3 text-sm font-semibold text-primary hover:bg-secondary"
+            to={to}
+          >
+            View all {label}
+            <ArrowRight className="size-4" />
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -230,7 +279,7 @@ function MegaMenu({
 
 function MobileNav() {
   return (
-    <div className="mobile-nav-trigger">
+    <div className="absolute right-4 top-1/2 flex -translate-y-1/2 lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -242,11 +291,11 @@ function MobileNav() {
             <Menu className="size-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent className="w-[88vw] overflow-y-auto bg-paper" side="right">
+        <SheetContent className="w-[88vw] overflow-y-auto bg-paper p-5 sm:p-6" side="right">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-3 text-left">
               <BrandMark className="size-12" />
-              <span>
+              <span className="min-w-0">
                 <span className="block font-display text-2xl text-primary">Derivative Bharat</span>
                 <span className="block text-xs font-semibold uppercase text-muted-foreground">
                   Heritage Journeys
@@ -321,10 +370,12 @@ function Footer() {
     <footer className="border-t bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.9fr] lg:px-8">
         <div>
-          <Link className="inline-flex items-center gap-3" to="/">
+          <Link className="inline-flex min-w-0 items-center gap-3" to="/">
             <BrandMark className="size-12 border-primary-foreground/20 shadow-none" />
-            <span>
-              <span className="block font-display text-2xl font-bold">Derivative Bharat</span>
+            <span className="min-w-0">
+              <span className="block truncate font-display text-2xl font-bold">
+                Derivative Bharat
+              </span>
               <span className="block text-xs font-semibold uppercase text-primary-foreground/70">
                 Heritage Journeys
               </span>
@@ -364,7 +415,7 @@ function Footer() {
             {contact.phone}
           </a>
           <a
-            className="text-sm text-primary-foreground/75 hover:text-gold"
+            className="break-words text-sm text-primary-foreground/75 hover:text-gold"
             href={`mailto:${contact.email}`}
           >
             {contact.email}
@@ -372,7 +423,7 @@ function Footer() {
           <span className="text-sm leading-6 text-primary-foreground/75">{contact.address}</span>
           <Button
             asChild
-            className="mt-2 w-fit bg-gold text-gold-foreground hover:bg-gold/90"
+            className="mt-2 w-full bg-gold text-gold-foreground hover:bg-gold/90 sm:w-fit"
             size="sm"
           >
             <a href={contact.whatsapp}>
@@ -383,9 +434,8 @@ function Footer() {
         </FooterColumn>
       </div>
       <div className="border-t border-primary-foreground/15">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-xs text-primary-foreground/65 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-4 text-center text-xs text-primary-foreground/65 lg:px-8">
           <span>© 2026 Derivative Bharat. All rights reserved.</span>
-          <span>Built for small groups, careful travel and deeper city reading.</span>
         </div>
       </div>
     </footer>

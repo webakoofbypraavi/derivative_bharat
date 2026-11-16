@@ -1,7 +1,7 @@
 import { ArrowRight, CalendarDays, CheckCircle2, MapPin, Send, Sparkles } from "lucide-react";
 import { useMemo, useState, type FormEvent } from "react";
 
-import customJourney from "@/assets/custom-journey.jpg";
+import customJourney from "@/assets/custom-journey-upscaled.webp";
 import { SectionHeader } from "@/components/site/cards";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,23 +45,27 @@ export function PlanPage({ searchParams }: { searchParams: URLSearchParams }) {
   const search = parsePlanSearch(searchParams);
   const [selectedTour, setSelectedTour] = useState(search.tour ?? "");
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const selectedTourDetails = useMemo(
     () => tours.find((tour) => tour.slug === selectedTour),
     [selectedTour],
   );
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const value = (name: string) => String(formData.get(name) ?? "").trim();
     const interestText = selectedInterests.length ? selectedInterests.join(", ") : "Open to ideas";
-    const tourText = selectedTourDetails?.title ?? value("tour") ?? "Custom route";
+    const tourText = selectedTourDetails?.title || value("tour") || "Custom route";
+    const destination = value("destination") || selectedTourDetails?.destination || "";
     const message = [
       "Hello Derivative Bharat, I would like help planning a journey.",
       `Name: ${value("name")}`,
       `Email: ${value("email")}`,
-      `Preferred city: ${value("destination") || "Flexible"}`,
+      `Preferred city: ${destination || "Flexible"}`,
       `Tour: ${tourText || "Custom route"}`,
       `Date: ${value("date") || "Flexible"}`,
       `Travellers: ${value("travellers") || "Not sure yet"}`,
@@ -69,8 +73,33 @@ export function PlanPage({ searchParams }: { searchParams: URLSearchParams }) {
       `Brief: ${value("brief") || "I will share more details shortly."}`,
     ].join("\n");
 
-    if (typeof window !== "undefined") {
-      window.location.href = `${contact.whatsapp}?text=${encodeURIComponent(message)}`;
+    setIsSubmitting(true);
+    setSubmitError("");
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: value("name"),
+          email: value("email"),
+          preferred_city: destination || null,
+          tour: selectedTour || null,
+          tour_title: tourText,
+          tour_destination: selectedTourDetails?.destination || destination || null,
+          date: value("date") || null,
+          travellers: value("travellers") || null,
+          interests: interestText,
+          brief: value("brief") || null,
+          message,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "We could not send your enquiry.");
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "We could not send your enquiry.");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -85,7 +114,7 @@ export function PlanPage({ searchParams }: { searchParams: URLSearchParams }) {
         <div className="absolute inset-0 bg-black/30" />
         <div className="relative mx-auto max-w-7xl px-4 py-16 lg:px-8">
           <p className="eyebrow text-gold">Plan</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Shape a heritage journey around your people, pace and curiosity.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/82">
@@ -96,123 +125,140 @@ export function PlanPage({ searchParams }: { searchParams: URLSearchParams }) {
       </section>
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-[1fr_380px] lg:px-8">
-        <div className="rounded-md border bg-background p-6 shadow-panel">
+        <div className="rounded-md border bg-background p-4 shadow-panel sm:p-6">
           <SectionHeader
             className="mb-6"
-            description="The form opens WhatsApp with your brief prepared so the planning desk can continue quickly."
+            description="Your booking enquiry is saved securely and routed to the spreadsheet tab for its destination."
             title="Journey brief"
           />
 
-          <form className="grid gap-5" onSubmit={handleSubmit}>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field id="name" label="Name" name="name" placeholder="Your name" />
-              <Field
-                id="email"
-                label="Email"
-                name="email"
-                placeholder="you@example.com"
-                type="email"
-              />
+          {submitted ? (
+            <div className="rounded-md border border-accent/30 bg-secondary p-5" role="status">
+              <CheckCircle2 className="size-7 text-accent" />
+              <h2 className="mt-4 text-2xl font-bold text-primary">Enquiry received</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Thanks. Your tour enquiry has been sent to our planning desk. We will be in touch
+                shortly.
+              </p>
             </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <Label htmlFor="destination">Preferred city</Label>
-                <select
-                  className="mt-2 h-10 w-full rounded-md border bg-paper px-3 text-sm outline-none focus:ring-1 focus:ring-ring"
-                  id="destination"
-                  name="destination"
-                  defaultValue=""
-                >
-                  <option value="">Flexible</option>
-                  {destinations.map((destination) => (
-                    <option key={destination.slug} value={destination.city}>
-                      {destination.city}
-                    </option>
-                  ))}
-                </select>
+          ) : (
+            <form className="grid gap-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field id="name" label="Name" name="name" placeholder="Your name" />
+                <Field
+                  id="email"
+                  label="Email"
+                  name="email"
+                  placeholder="you@example.com"
+                  type="email"
+                />
               </div>
-              <div>
-                <Label htmlFor="tour">Existing route</Label>
-                <select
-                  className="mt-2 h-10 w-full rounded-md border bg-paper px-3 text-sm outline-none focus:ring-1 focus:ring-ring"
-                  id="tour"
-                  name="tour"
-                  onChange={(event) => setSelectedTour(event.target.value)}
-                  value={selectedTour}
-                >
-                  <option value="">Custom route</option>
-                  {tours.map((tour) => (
-                    <option key={tour.slug} value={tour.slug}>
-                      {tour.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                defaultValue={search.date}
-                id="date"
-                label="Preferred date"
-                name="date"
-                type="date"
-              />
-              <div>
-                <Label htmlFor="travellers">Travellers</Label>
-                <select
-                  className="mt-2 h-10 w-full rounded-md border bg-paper px-3 text-sm outline-none focus:ring-1 focus:ring-ring"
-                  defaultValue={search.travellers ?? "2"}
-                  id="travellers"
-                  name="travellers"
-                >
-                  <option value="1">1 traveller</option>
-                  <option value="2">2 travellers</option>
-                  <option value="4">3-4 travellers</option>
-                  <option value="8">5-8 travellers</option>
-                  <option value="private">Private group</option>
-                </select>
-              </div>
-            </div>
-
-            <fieldset>
-              <legend className="text-sm font-semibold text-primary">Interests</legend>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {experienceCategories.map((category) => (
-                  <label
-                    className="flex cursor-pointer items-center gap-3 rounded-md border bg-paper px-3 py-2 text-sm font-semibold hover:bg-secondary"
-                    key={category.slug}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <Label htmlFor="destination">Preferred city</Label>
+                  <select
+                    className="mt-2 h-11 w-full rounded-md border bg-paper px-3 text-base outline-none focus:ring-1 focus:ring-ring sm:h-10 sm:text-sm"
+                    id="destination"
+                    name="destination"
+                    defaultValue=""
                   >
-                    <input
-                      checked={selectedInterests.includes(category.title)}
-                      className="size-4 accent-primary"
-                      onChange={() =>
-                        setSelectedInterests(toggleValue(selectedInterests, category.title))
-                      }
-                      type="checkbox"
-                    />
-                    {category.title}
-                  </label>
-                ))}
+                    <option value="">Flexible</option>
+                    {destinations.map((destination) => (
+                      <option key={destination.slug} value={destination.city}>
+                        {destination.city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="tour">Existing route</Label>
+                  <select
+                    className="mt-2 h-11 w-full rounded-md border bg-paper px-3 text-base outline-none focus:ring-1 focus:ring-ring sm:h-10 sm:text-sm"
+                    id="tour"
+                    name="tour"
+                    onChange={(event) => setSelectedTour(event.target.value)}
+                    value={selectedTour}
+                  >
+                    <option value="">Custom route</option>
+                    {tours.map((tour) => (
+                      <option key={tour.slug} value={tour.slug}>
+                        {tour.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-            </fieldset>
 
-            <div>
-              <Label htmlFor="brief">Brief</Label>
-              <Textarea
-                className="mt-2 min-h-36 bg-paper"
-                id="brief"
-                name="brief"
-                placeholder="Occasion, route ideas, mobility needs, food preferences or cities to connect"
-              />
-            </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  defaultValue={search.date}
+                  id="date"
+                  label="Preferred date"
+                  name="date"
+                  type="date"
+                />
+                <div>
+                  <Label htmlFor="travellers">Travellers</Label>
+                  <select
+                    className="mt-2 h-11 w-full rounded-md border bg-paper px-3 text-base outline-none focus:ring-1 focus:ring-ring sm:h-10 sm:text-sm"
+                    defaultValue={search.travellers ?? "2"}
+                    id="travellers"
+                    name="travellers"
+                  >
+                    <option value="1">1 traveller</option>
+                    <option value="2">2 travellers</option>
+                    <option value="4">3-4 travellers</option>
+                    <option value="8">5-8 travellers</option>
+                    <option value="private">Private group</option>
+                  </select>
+                </div>
+              </div>
 
-            <Button className="w-full sm:w-fit" type="submit">
-              Prepare WhatsApp Brief
-              <Send className="size-4" />
-            </Button>
-          </form>
+              <fieldset>
+                <legend className="text-sm font-semibold text-primary">Interests</legend>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {experienceCategories.map((category) => (
+                    <label
+                      className="flex min-h-11 cursor-pointer items-center gap-3 rounded-md border bg-paper px-3 py-2 text-sm font-semibold hover:bg-secondary"
+                      key={category.slug}
+                    >
+                      <input
+                        checked={selectedInterests.includes(category.title)}
+                        className="size-4 accent-primary"
+                        onChange={() =>
+                          setSelectedInterests(toggleValue(selectedInterests, category.title))
+                        }
+                        type="checkbox"
+                      />
+                      <span className="min-w-0">{category.title}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div>
+                <Label htmlFor="brief">Brief</Label>
+                <Textarea
+                  className="mt-2 min-h-36 bg-paper"
+                  id="brief"
+                  name="brief"
+                  placeholder="Occasion, route ideas, mobility needs, food preferences or cities to connect"
+                />
+              </div>
+
+              {submitError ? (
+                <p className="text-sm font-semibold text-destructive" role="alert">
+                  {submitError}
+                </p>
+              ) : null}
+
+              <Button className="w-full sm:w-fit" disabled={isSubmitting} type="submit">
+                {isSubmitting ? "Sending…" : "Send booking enquiry"}
+                <Send className="size-4" />
+              </Button>
+            </form>
+          )}
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">

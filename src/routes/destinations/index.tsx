@@ -17,7 +17,7 @@ export function getDestinationsHead() {
     meta: pageMeta({
       title: "Destinations",
       description:
-        "Explore Derivative Bharat heritage journeys across Mumbai, Delhi, Jaipur, Varanasi, Kolkata, Hyderabad, Pune and Goa.",
+        "Explore Derivative Bharat's curated heritage journeys across Goa, Karnataka, Maharashtra and the Deccan.",
       path: "/destinations",
       image: images.galleryMarket,
     }),
@@ -71,7 +71,7 @@ export function DestinationsPage() {
         />
         <div className="relative mx-auto max-w-7xl px-4 py-16 lg:px-8">
           <p className="eyebrow text-gold">Destinations</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Cities where history is still part of the day.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/78">
@@ -81,16 +81,54 @@ export function DestinationsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
-        <SectionHeader
-          description="Each destination page gathers the local story, key neighbourhoods, best season and journeys currently available."
-          eyebrow="City guide"
-          title="Explore by destination"
-        />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {destinations.map((destination) => (
-            <DestinationCard destination={destination} key={destination.slug} />
-          ))}
+      <section className="relative overflow-hidden bg-background">
+        <div className="absolute inset-x-0 top-0 h-px bg-border" />
+        <div className="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-20">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-end">
+            <div className="destination-section-intro">
+              <p className="eyebrow">City guide</p>
+              <h2 className="mt-3 max-w-3xl break-words font-display text-3xl font-bold leading-tight text-primary sm:text-4xl">
+                Explore by destination
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                Each city guide gathers the local story, key neighbourhoods, best season and
+                journeys currently available, so travellers can choose the right route before they
+                arrive.
+              </p>
+            </div>
+
+            <div className="destination-guide-panel rounded-md border border-border/80 bg-paper p-4 shadow-card">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-md bg-background p-4">
+                  <div className="font-display text-3xl font-bold text-primary">
+                    {destinations.length}
+                  </div>
+                  <div className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    Heritage cities
+                  </div>
+                </div>
+                <div className="rounded-md bg-primary p-4 text-primary-foreground">
+                  <div className="font-display text-3xl font-bold">{tours.length}+</div>
+                  <div className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-primary-foreground/75">
+                    Curated routes
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 flex items-start gap-3 rounded-md border bg-background p-4">
+                <Compass className="mt-0.5 size-5 shrink-0 text-accent" />
+                <p className="text-sm leading-6 text-muted-foreground">
+                  Pick a city, then follow architecture, food, craft, water systems or old-quarter
+                  routes at a humane walking pace.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {destinations.map((destination, index) => (
+              <DestinationCard destination={destination} index={index} key={destination.slug} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -128,7 +166,7 @@ export function DestinationsPage() {
                 </p>
                 <Button
                   asChild
-                  className="mt-5 w-fit bg-gold text-gold-foreground hover:bg-gold/90"
+                  className="mt-5 w-full bg-gold text-gold-foreground hover:bg-gold/90 sm:w-fit"
                   size="sm"
                 >
                   <Link to="/experiences">
@@ -139,7 +177,7 @@ export function DestinationsPage() {
               </div>
             </div>
           </div>
-          <div className="flex h-full flex-col rounded-md border bg-background p-6 shadow-card">
+          <div className="flex h-full flex-col rounded-md border bg-background p-4 shadow-card sm:p-6">
             <div className="max-w-2xl">
               <p className="eyebrow">How routes stay current</p>
               <h2 className="mt-3 text-2xl font-bold text-primary">
@@ -189,7 +227,7 @@ export function DestinationsPage() {
       <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
         <SectionHeader
           action={
-            <Button asChild variant="outline">
+            <Button asChild className="w-full sm:w-auto" variant="outline">
               <Link to="/experiences">
                 Browse All
                 <ArrowRight className="size-4" />

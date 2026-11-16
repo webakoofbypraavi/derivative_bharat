@@ -65,6 +65,7 @@ export function getExperienceHead(slug: string) {
 
 const anchorLinks = [
   { href: "#overview", label: "Overview" },
+  { href: "#gallery", label: "Gallery" },
   { href: "#itinerary", label: "Itinerary" },
   { href: "#included", label: "Included" },
   { href: "#faqs", label: "FAQs" },
@@ -84,6 +85,7 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
         (item.destinationSlug === tour.destinationSlug || item.categorySlug === tour.categorySlug),
     )
     .slice(0, 3);
+  const tourGallery = (tour.gallery ?? [tour.image]).slice(0, 4);
 
   return (
     <>
@@ -101,7 +103,7 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
                 <Badge className="bg-accent text-accent-foreground">Trending</Badge>
               ) : null}
             </div>
-            <h1 className="mt-5 font-display text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 font-display text-3xl font-bold leading-tight sm:text-5xl lg:text-6xl">
               {tour.title}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/80">
@@ -116,16 +118,18 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
                 <Clock className="size-4 text-accent" />
                 {tour.duration}
               </PeopleBadge>
-              <PeopleBadge>
-                <Star className="size-4 fill-gold text-gold" />
-                {tour.rating} from {tour.reviews} reviews
-              </PeopleBadge>
+              {tour.reviews ? (
+                <PeopleBadge>
+                  <Star className="size-4 fill-gold text-gold" />
+                  {tour.rating} from {tour.reviews} reviews
+                </PeopleBadge>
+              ) : null}
             </div>
           </div>
         </div>
       </section>
 
-      <nav className="sticky top-[72px] z-30 border-b bg-background">
+      <nav className="sticky top-16 z-30 border-b bg-background lg:top-[72px]">
         <div className="hide-scrollbar mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 lg:px-8">
           {anchorLinks.map((link) => (
             <a
@@ -143,13 +147,37 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
         <div className="space-y-12">
           <section className="scroll-mt-28" id="overview">
             <p className="eyebrow">Overview</p>
-            <h2 className="mt-3 text-3xl font-bold text-primary">What this route opens up</h2>
+            <h2 className="mt-3 text-2xl font-bold text-primary sm:text-3xl">
+              What this route opens up
+            </h2>
             <p className="mt-5 text-base leading-8 text-muted-foreground">{tour.overview}</p>
             <div className="mt-8 grid gap-5 md:grid-cols-2">
               <InfoList items={tour.highlights} title="Highlights" type="positive" />
               <InfoList items={tour.discover} title="You will discover" type="positive" />
             </div>
           </section>
+
+          {tourGallery.length > 1 ? (
+            <section className="scroll-mt-28" id="gallery">
+              <SectionHeader
+                className="mb-6"
+                description="A visual record of the places and landmarks included in this journey."
+                eyebrow="Route gallery"
+                title={`Scenes from ${tour.title}`}
+              />
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                {tourGallery.map((image, index) => (
+                  <img
+                    alt={`${tour.title} gallery image ${index + 1}`}
+                    className="aspect-[4/3] h-full w-full rounded-md object-cover shadow-card"
+                    key={image}
+                    loading="lazy"
+                    src={image}
+                  />
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="scroll-mt-28" id="itinerary">
             <SectionHeader
@@ -216,7 +244,7 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
         <aside className="lg:sticky lg:top-28 lg:self-start">
           <div className="rounded-md border bg-background p-5 shadow-panel">
             <p className="text-sm font-semibold text-muted-foreground">From</p>
-            <div className="mt-1 font-display text-4xl font-bold text-primary">
+            <div className="mt-1 font-display text-3xl font-bold text-primary sm:text-4xl">
               {formatPrice(tour.price)}
             </div>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -232,7 +260,7 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
                 <span className="flex h-11 items-center gap-2 rounded-md border bg-paper px-3">
                   <CalendarDays className="size-4 text-muted-foreground" />
                   <input
-                    className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                    className="min-w-0 flex-1 bg-transparent text-base outline-none sm:text-sm"
                     name="date"
                     type="date"
                   />
@@ -243,7 +271,7 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
                   Travellers
                 </span>
                 <select
-                  className="h-11 w-full rounded-md border bg-paper px-3 text-sm outline-none"
+                  className="h-11 w-full rounded-md border bg-paper px-3 text-base outline-none sm:text-sm"
                   name="travellers"
                   defaultValue="2"
                 >
@@ -303,6 +331,24 @@ export function ExperienceDetailPage({ slug }: { slug: string }) {
         primaryLabel="Request a Private Departure"
         title="Want this journey tailored for your group?"
       />
+
+      <div aria-hidden="true" className="h-24 lg:hidden" />
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/95 px-4 py-3 shadow-panel backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-7xl items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase text-muted-foreground">From</p>
+            <p className="truncate font-display text-xl font-bold text-primary">
+              {formatPrice(tour.price)}
+            </p>
+          </div>
+          <Button asChild className="shrink-0">
+            <Link to={`/plan?tour=${tour.slug}`}>
+              Enquire
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
     </>
   );
 }

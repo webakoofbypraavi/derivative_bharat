@@ -6,6 +6,8 @@ import {
   ChevronRight,
   Landmark,
   MapPin,
+  Pause,
+  Play,
   Route,
   Sparkles,
   Users,
@@ -54,28 +56,28 @@ export function HomePage() {
 
   return (
     <>
-      <section className="relative min-h-[64svh] overflow-hidden">
+      <section className="home-hero-section relative overflow-hidden">
         <img
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-[58%_center]"
           fetchPriority="high"
           src={images.heroHeritage}
         />
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="relative mx-auto flex min-h-[64svh] max-w-7xl items-center px-4 py-14 lg:px-8">
-          <div className="w-full min-w-0 max-w-3xl text-primary-foreground fade-up">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/45 to-black/25" />
+        <div className="relative mx-auto flex h-full w-[calc(100%-2rem)] max-w-[1520px] items-center px-0 py-14 sm:w-[calc(100%-4rem)] lg:w-[calc(100%-4rem)]">
+          <div className="home-hero-copy w-full min-w-0 max-w-4xl text-primary-foreground fade-up">
             <p className="eyebrow text-gold">India, read closely</p>
-            <h1 className="mt-4 max-w-full font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-4 max-w-full font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-[5.35rem]">
               Derivative Bharat
             </h1>
-            <p className="mt-5 max-w-[21rem] text-base leading-7 text-primary-foreground/85 sm:max-w-2xl sm:text-lg sm:leading-8">
+            <p className="mt-5 max-w-full text-base leading-7 text-primary-foreground/85 sm:max-w-3xl sm:text-lg sm:leading-8 lg:text-[1.35rem] lg:leading-9">
               Heritage journeys led by historians, architects, food researchers and local keepers of
               memory across India's old quarters.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button
                 asChild
-                className="w-full max-w-[21rem] bg-gold text-gold-foreground hover:bg-gold/90 sm:w-auto sm:max-w-none"
+                className="h-12 w-full max-w-[21rem] bg-gold px-8 text-gold-foreground hover:bg-gold/90 sm:w-auto sm:max-w-none"
                 size="lg"
               >
                 <Link to="/experiences">
@@ -85,7 +87,7 @@ export function HomePage() {
               </Button>
               <Button
                 asChild
-                className="w-full max-w-[21rem] border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary sm:w-auto sm:max-w-none"
+                className="h-12 w-full max-w-[21rem] border-primary-foreground/40 bg-transparent px-8 text-primary-foreground hover:bg-primary-foreground hover:text-primary sm:w-auto sm:max-w-none"
                 size="lg"
                 variant="outline"
               >
@@ -96,32 +98,71 @@ export function HomePage() {
         </div>
       </section>
 
-      <div className="relative z-10 mx-auto -mt-12 max-w-7xl px-4 lg:px-8">
-        <SearchPanel className="border-gold/30" />
+      <div className="hero-search-wrap relative z-10 mx-auto w-[calc(100%-2rem)] max-w-[1520px] px-0 sm:w-[calc(100%-4rem)] lg:w-[calc(100%-4rem)]">
+        <SearchPanel className="hero-search-panel border-gold/30" />
       </div>
 
       <TrendingDestinationsSection />
 
       <TravelPortalOffers />
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-6 lg:px-8">
-        <SectionHeader
-          action={
-            <Button asChild variant="outline">
-              <Link to="/experiences">
-                View All Tours
-                <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-          }
-          description="Each route is built from archival research, on-street observation and relationships with the communities who keep the city working."
-          eyebrow="Experience categories"
-          title="Choose the lens before you choose the city"
-        />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {experienceCategories.map((category) => (
-            <ExperienceCard category={category} key={category.slug} />
-          ))}
+      <section className="relative overflow-hidden bg-background">
+        <div className="absolute inset-x-0 top-0 h-px bg-border" />
+        <div className="mx-auto max-w-7xl px-4 pb-16 pt-12 lg:px-8 lg:pb-20">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:items-end">
+            <div className="experience-section-intro">
+              <p className="eyebrow">Experience categories</p>
+              <h2 className="mt-3 max-w-4xl break-words font-display text-3xl font-bold leading-tight text-primary sm:text-5xl">
+                Choose the lens before you choose the city
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+                Each route is built from archival research, on-street observation and relationships
+                with the communities who keep the city working.
+              </p>
+            </div>
+
+            <div className="experience-lens-panel rounded-md border border-border/80 bg-paper p-5 shadow-card">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                    Route lenses
+                  </p>
+                  <p className="mt-2 font-display text-3xl font-bold text-primary">
+                    {experienceCategories.length}
+                  </p>
+                </div>
+                <span className="inline-flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                  <Sparkles className="size-5" />
+                </span>
+              </div>
+
+              <div className="mt-5 space-y-3 border-t pt-5">
+                {[
+                  { icon: Landmark, text: "Architecture, food, craft and living traditions" },
+                  { icon: Route, text: "Short walks through multi-day regional routes" },
+                  { icon: Users, text: "Small-group pacing with specialist context" },
+                ].map((item) => (
+                  <div className="flex items-start gap-3 text-sm leading-6" key={item.text}>
+                    <item.icon className="mt-1 size-4 shrink-0 text-accent" />
+                    <span className="text-muted-foreground">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Button asChild className="mt-6 w-full" variant="outline">
+                <Link to="/experiences">
+                  View All Tours
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            {experienceCategories.map((category, index) => (
+              <ExperienceCard category={category} index={index} key={category.slug} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -137,7 +178,7 @@ export function HomePage() {
           </div>
           <div>
             <p className="eyebrow">Signature journey</p>
-            <h2 className="mt-3 text-4xl font-bold text-primary">
+            <h2 className="mt-3 text-3xl font-bold text-primary sm:text-4xl">
               One journey, many Indias: cities, kitchens, craft and stone.
             </h2>
             <p className="mt-5 text-base leading-8 text-muted-foreground">
@@ -176,7 +217,10 @@ export function HomePage() {
         />
         <CarouselRow moving>
           {featuredTours.map((tour) => (
-            <div className="w-[300px] shrink-0 snap-start sm:w-[360px]" key={tour.slug}>
+            <div
+              className="w-[82vw] max-w-[300px] shrink-0 snap-start sm:w-[360px] sm:max-w-none"
+              key={tour.slug}
+            >
               <TourCard tour={tour} />
             </div>
           ))}
@@ -237,41 +281,46 @@ type PortalOffer = {
   eyebrow: string;
   icon: LucideIcon;
   image: string;
+  locationLabel: string;
+  priceLabel: string;
+  routeLabel: string;
   title: string;
   to: string;
 };
 
 function TravelPortalOffers() {
-  const varanasiDawn = tours.find((tour) => tour.slug === "varanasi-ghats-at-dawn") ?? tours[0];
+  const varanasiDawn = tours.find((tour) => tour.slug === "south-goa-temple-run") ?? tours[0];
   const sahyadriRoute =
-    tours.find((tour) => tour.slug === "sahyadri-monsoon-heritage-route") ?? tours[0];
+    tours.find((tour) => tour.slug === "hampi-heritage-trail") ?? tours[0];
   const oldDelhiFood =
-    tours.find((tour) => tour.slug === "shahjahanabad-old-city-food-trail") ?? tours[0];
+    tours.find((tour) => tour.slug === "coastal-karnataka-heritage") ?? tours[0];
   const mumbaiWalk =
-    tours.find((tour) => tour.slug === "fort-and-kala-ghoda-heritage-walk") ?? tours[0];
-  const jaipurCraft = tours.find((tour) => tour.slug === "jaipur-craft-quarters-walk") ?? tours[0];
-  const hyderabad = destinations.find((destination) => destination.slug === "hyderabad");
-  const goa = destinations.find((destination) => destination.slug === "goa");
+    tours.find((tour) => tour.slug === "marathwada-heritage-trail") ?? tours[0];
+  const jaipurCraft = tours.find((tour) => tour.slug === "western-maharashtra-heritage") ?? tours[0];
+  const hyderabad = destinations.find((destination) => destination.slug === "marathwada-heritage-trail");
+  const goa = destinations.find((destination) => destination.slug === "south-goa-temple-run");
 
   const offers: PortalOffer[] = [
     {
-      description: `Sunrise boat, ghats and weaving lanes from INR ${varanasiDawn.price.toLocaleString(
-        "en-IN",
-      )}.`,
-      eyebrow: "Dawn rituals",
+      description: varanasiDawn.summary,
+      eyebrow: "Temple heritage",
       icon: Sparkles,
       image: varanasiDawn.image,
-      title: "Your spiritual journey starts here",
+      locationLabel: varanasiDawn.destination,
+      priceLabel: "Price on request",
+      routeLabel: varanasiDawn.duration,
+      title: varanasiDawn.title,
       to: `/experiences/${varanasiDawn.slug}`,
     },
     {
-      description: `Three days through ghat forts, caves and village kitchens from INR ${sahyadriRoute.price.toLocaleString(
-        "en-IN",
-      )}.`,
+      description: sahyadriRoute.summary,
       eyebrow: "Signature route",
       icon: Route,
       image: sahyadriRoute.image,
-      title: "Monsoon heritage across the Sahyadris",
+      locationLabel: sahyadriRoute.destination,
+      priceLabel: "Price on request",
+      routeLabel: sahyadriRoute.duration,
+      title: sahyadriRoute.title,
       to: `/experiences/${sahyadriRoute.slug}`,
     },
     {
@@ -279,6 +328,9 @@ function TravelPortalOffers() {
       eyebrow: "Escorted by specialists",
       icon: Users,
       image: images.galleryGroup,
+      locationLabel: "India-wide",
+      priceLabel: "By request",
+      routeLabel: "Private group",
       title: "Escorted tours by local partners",
       to: "/plan",
     },
@@ -287,62 +339,83 @@ function TravelPortalOffers() {
       eyebrow: "Custom plan",
       icon: CalendarCheck,
       image: images.galleryMarket,
+      locationLabel: "Flexible city",
+      priceLabel: "Custom quote",
+      routeLabel: "Built around dates",
       title: "Build your own itinerary",
       to: "/plan",
     },
     {
-      description: `Eight tastings across the walled city from INR ${oldDelhiFood.price.toLocaleString(
-        "en-IN",
-      )}.`,
-      eyebrow: "Food trails",
+      description: oldDelhiFood.summary,
+      eyebrow: "Coastal heritage",
       icon: Sparkles,
       image: oldDelhiFood.image,
-      title: "Old Delhi kitchens and bazaars",
+      locationLabel: oldDelhiFood.destination,
+      priceLabel: "Price on request",
+      routeLabel: oldDelhiFood.duration,
+      title: oldDelhiFood.title,
       to: `/experiences/${oldDelhiFood.slug}`,
     },
     {
-      description: `Gothic, Deco and port-city stories from INR ${mumbaiWalk.price.toLocaleString(
-        "en-IN",
-      )}.`,
-      eyebrow: "Architecture days",
+      description: mumbaiWalk.summary,
+      eyebrow: "Deccan history",
       icon: Landmark,
       image: mumbaiWalk.image,
-      title: "Mumbai built in stone and trade",
+      locationLabel: mumbaiWalk.destination,
+      priceLabel: "Price on request",
+      routeLabel: mumbaiWalk.duration,
+      title: mumbaiWalk.title,
       to: `/experiences/${mumbaiWalk.slug}`,
     },
     {
-      description: `Guild streets, block printing and studio visits from INR ${jaipurCraft.price.toLocaleString(
-        "en-IN",
-      )}.`,
-      eyebrow: "Craft access",
+      description: jaipurCraft.summary,
+      eyebrow: "Maratha heartland",
       icon: Sparkles,
       image: jaipurCraft.image,
-      title: "Jaipur craft quarters walk",
+      locationLabel: jaipurCraft.destination,
+      priceLabel: "Price on request",
+      routeLabel: jaipurCraft.duration,
+      title: jaipurCraft.title,
       to: `/experiences/${jaipurCraft.slug}`,
     },
     {
-      description: "From Deccan lanes to Goan village houses, choose the old-city pace you want.",
-      eyebrow: "City pairings",
+      description: "Explore the early temple architecture of Badami, Aihole and Pattadakal.",
+      eyebrow: "Temple architecture",
       icon: Route,
       image: hyderabad?.image ?? goa?.image ?? images.galleryMarket,
-      title: "Weekend heritage escapes",
+      locationLabel: "Northern Karnataka",
+      priceLabel: "Custom quote",
+      routeLabel: "3-4 days",
+      title: "Northern Karnataka Heritage",
       to: "/destinations",
     },
   ];
 
   return (
-    <section className="bg-background">
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-7 lg:px-0">
-        <div>
-          <p className="eyebrow">Heritage journeys</p>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-            Book ready walks, escorted city routes, or a private itinerary built around your dates.
-          </p>
+    <section className="border-y bg-paper-deep">
+      <div className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Heritage journeys</p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-primary sm:text-4xl">
+              Ready routes, private departures and city stories worth planning around.
+            </h2>
+            <p className="mt-4 text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+              Book ready walks, escorted city routes, or a private itinerary built around your
+              dates.
+            </p>
+          </div>
+          <Button asChild className="w-full sm:w-auto" variant="outline">
+            <Link to="/experiences">
+              Browse All Journeys
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
         </div>
 
-        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {offers.map((offer) => (
-            <PortalOfferCard key={offer.title} offer={offer} />
+        <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {offers.map((offer, index) => (
+            <PortalOfferCard index={index} key={offer.title} offer={offer} />
           ))}
         </div>
       </div>
@@ -350,36 +423,58 @@ function TravelPortalOffers() {
   );
 }
 
-function PortalOfferCard({ offer }: { offer: PortalOffer }) {
+function PortalOfferCard({ index, offer }: { index: number; offer: PortalOffer }) {
   const Icon = offer.icon;
 
   return (
     <Link
-      className="group flex h-full flex-col overflow-hidden rounded-md border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-lift"
+      className="journey-offer-card group relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-md border bg-card shadow-card transition duration-300 hover:-translate-y-1 hover:border-gold/70 hover:shadow-lift"
+      style={{ animationDelay: `${index * 70}ms` }}
       to={offer.to}
     >
-      <span className="aspect-[4/3] overflow-hidden bg-paper-deep">
+      <span className="relative block aspect-[1.18/1] overflow-hidden bg-primary">
         <img
           alt=""
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
           loading="lazy"
           src={offer.image}
         />
-      </span>
-      <span className="flex flex-1 flex-col p-5">
-        <span className="inline-flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-accent">
+        <span className="absolute inset-0 bg-gradient-to-t from-primary/78 via-primary/10 to-transparent" />
+        <span className="journey-card-shine absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+        <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-background/95 px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-primary shadow-card backdrop-blur">
           <Icon className="size-4" />
           {offer.eyebrow}
         </span>
-        <span className="mt-3 block text-xl font-bold leading-tight text-primary">
+        <span className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 text-primary-foreground">
+          <span className="inline-flex min-w-0 items-center gap-1.5 text-xs font-bold">
+            <MapPin className="size-3.5 shrink-0 text-gold" />
+            <span className="truncate">{offer.locationLabel}</span>
+          </span>
+          <span className="shrink-0 rounded-full bg-gold px-3 py-1 text-[0.68rem] font-bold text-gold-foreground">
+            {offer.routeLabel}
+          </span>
+        </span>
+      </span>
+      <span className="flex flex-1 flex-col p-5">
+        <span className="block text-xl font-bold leading-tight text-primary transition group-hover:text-accent">
           {offer.title}
         </span>
         <span className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">
           {offer.description}
         </span>
-        <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-accent">
+        <span className="mt-5 grid grid-cols-[1fr_auto] items-center gap-3 border-t pt-4">
+          <span>
+            <span className="block text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+              Planning
+            </span>
+            <span className="mt-1 block text-sm font-bold text-foreground">{offer.priceLabel}</span>
+          </span>
+          <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition group-hover:bg-accent">
+            <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
+          </span>
+        </span>
+        <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-accent">
           {offer.cta ?? "View More"}
-          <ArrowRight className="size-4 transition group-hover:translate-x-1" />
         </span>
       </span>
     </Link>
@@ -395,28 +490,28 @@ const regionalDestinationTabs: {
 }[] = [
   {
     key: "north",
-    label: "North India",
-    slugs: ["varanasi", "delhi", "jaipur", "kolkata", "hyderabad", "mumbai", "goa"],
+    label: "Karnataka",
+    slugs: ["hampi-heritage-trail", "northern-karnataka-heritage", "marathwada-heritage-trail"],
   },
   {
     key: "south",
-    label: "South India",
-    slugs: ["hyderabad", "goa", "mumbai", "pune", "kolkata", "delhi", "jaipur"],
+    label: "Goa & Coast",
+    slugs: ["south-goa-temple-run", "coastal-karnataka-heritage", "northern-karnataka-heritage"],
   },
   {
     key: "east",
-    label: "East India",
-    slugs: ["kolkata", "varanasi", "delhi", "jaipur", "hyderabad", "mumbai", "goa"],
+    label: "Temple Trails",
+    slugs: ["coastal-karnataka-heritage", "south-goa-temple-run", "hampi-heritage-trail"],
   },
   {
     key: "west",
-    label: "West India",
-    slugs: ["mumbai", "goa", "pune", "jaipur", "delhi", "hyderabad", "varanasi"],
+    label: "Maharashtra",
+    slugs: ["western-maharashtra-heritage", "south-goa-temple-run", "marathwada-heritage-trail"],
   },
   {
     key: "central",
-    label: "Central India",
-    slugs: ["pune", "hyderabad", "varanasi", "mumbai", "delhi", "jaipur", "kolkata"],
+    label: "Deccan",
+    slugs: ["western-maharashtra-heritage", "marathwada-heritage-trail", "hampi-heritage-trail"],
   },
 ];
 
@@ -433,7 +528,7 @@ function RegionalDestinationsSection() {
   return (
     <section className="bg-background">
       <div className="mx-auto max-w-[1440px] px-4 py-16 lg:px-8">
-        <h2 className="max-w-5xl text-4xl font-extrabold leading-tight text-slate-700 sm:text-5xl lg:text-6xl">
+        <h2 className="max-w-5xl text-3xl font-extrabold leading-tight text-slate-700 sm:text-5xl lg:text-6xl">
           Explore Top Destinations by Region
         </h2>
 
@@ -463,9 +558,9 @@ function RegionalDestinationsSection() {
         </div>
 
         {featuredDestination ? (
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_1.5fr]">
+          <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-[1.15fr_1fr]">
             <RegionalDestinationCard destination={featuredDestination} featured />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid auto-rows-fr gap-6 sm:grid-cols-2">
               {secondaryDestinations.map((destination) => (
                 <RegionalDestinationCard destination={destination} key={destination.slug} />
               ))}
@@ -489,8 +584,8 @@ function RegionalDestinationCard({
 
   return (
     <Link
-      className={`group relative block min-h-[230px] overflow-hidden rounded-md bg-primary shadow-card transition hover:-translate-y-1 hover:shadow-lift ${
-        featured ? "min-h-[360px] lg:min-h-[500px]" : ""
+      className={`group relative block min-h-[280px] overflow-hidden rounded-lg bg-primary shadow-card transition hover:-translate-y-1 hover:shadow-lift ${
+        featured ? "min-h-[360px] lg:min-h-[500px]" : "min-h-[280px] lg:min-h-[500px]"
       }`}
       params={{ city: destination.slug }}
       to="/destinations/$city"
@@ -524,6 +619,12 @@ function TrendingDestinationsSection() {
   const [mode, setMode] = useState<SpotlightMode>("cities");
   const [isPaused, setIsPaused] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
+  const segmentWidthRef = useRef(0);
+  const pauseRef = useRef(false);
+  const focusRef = useRef(false);
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  const segmentRef = useRef<HTMLDivElement>(null);
 
   const spotlightItems =
     mode === "cities"
@@ -541,54 +642,85 @@ function TrendingDestinationsSection() {
           to: `/experiences?category=${encodeURIComponent(category.slug)}`,
         }));
 
+  const itemCount = spotlightItems.length;
+
   useEffect(() => {
-    if (isPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    pauseRef.current = isPaused;
+  }, [isPaused]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const segment = segmentRef.current;
+    if (!track || !segment) return;
+
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    let previousTime = 0;
+    offsetRef.current = 0;
+    segmentWidthRef.current = 0;
+
+    function measure() {
+      const width = segment!.getBoundingClientRect().width;
+      const previousWidth = segmentWidthRef.current;
+      offsetRef.current = previousWidth ? (offsetRef.current / previousWidth) * width : width;
+      segmentWidthRef.current = width;
+      track!.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
+    }
+
+    function tick(time: number) {
+      const elapsed = previousTime ? Math.min(time - previousTime, 64) : 0;
+      previousTime = time;
+      const width = segmentWidthRef.current;
+
+      if (
+        width &&
+        !pauseRef.current &&
+        !focusRef.current &&
+        !document.hidden &&
+        !motion.matches &&
+        itemCount > 1
+      ) {
+        // Move at a constant 32 pixels per second, then wrap to the identical copy.
+        offsetRef.current = width + ((offsetRef.current - width + elapsed * 0.032) % width);
+        track!.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
+      }
+      frame = window.requestAnimationFrame(tick);
+    }
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(segment);
+    frame = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [itemCount, mode]);
+
+  function scrollSpotlights(direction: "left" | "right") {
+    if (itemCount < 2) {
       return;
     }
 
-    let animationFrame = 0;
-    let previousTime = 0;
-    const pixelsPerSecond = 32;
-
-    function moveCarousel(timestamp: number) {
-      const track = trackRef.current;
-
-      if (!track) {
-        return;
-      }
-
-      if (!previousTime) {
-        previousTime = timestamp;
-      }
-
-      const elapsed = timestamp - previousTime;
-      previousTime = timestamp;
-      track.scrollLeft += (pixelsPerSecond * elapsed) / 1000;
-
-      const loopPoint = track.scrollWidth / 3;
-
-      if (track.scrollLeft >= loopPoint) {
-        track.scrollLeft -= loopPoint;
-      }
-
-      animationFrame = window.requestAnimationFrame(moveCarousel);
-    }
-
-    animationFrame = window.requestAnimationFrame(moveCarousel);
-
-    return () => window.cancelAnimationFrame(animationFrame);
-  }, [isPaused, mode]);
-
-  function scrollSpotlights(direction: "left" | "right") {
-    trackRef.current?.scrollBy({
-      behavior: "smooth",
-      left: direction === "left" ? -420 : 420,
-    });
+    const width = segmentWidthRef.current;
+    const track = trackRef.current;
+    const card = cardRef.current;
+    const segment = segmentRef.current;
+    if (!width || !track || !card || !segment) return;
+    const gap = Number.parseFloat(window.getComputedStyle(segment).columnGap) || 20;
+    const step = card.getBoundingClientRect().width + gap;
+    const nextOffset = offsetRef.current - width + (direction === "left" ? -step : step);
+    offsetRef.current = width + (((nextOffset % width) + width) % width);
+    track.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
   }
 
   function changeMode(nextMode: SpotlightMode) {
+    if (nextMode === mode) {
+      return;
+    }
+
     setMode(nextMode);
-    requestAnimationFrame(() => trackRef.current?.scrollTo({ behavior: "smooth", left: 0 }));
   }
 
   return (
@@ -602,13 +734,13 @@ function TrendingDestinationsSection() {
             </h2>
           </div>
 
-          <div className="inline-flex w-fit rounded-full bg-secondary p-1 shadow-card">
+          <div className="grid w-full grid-cols-2 rounded-full bg-secondary p-1 shadow-card sm:inline-flex sm:w-fit">
             {[
               { label: "Heritage Cities", value: "cities" },
               { label: "Experience Lenses", value: "experiences" },
             ].map((item) => (
               <button
-                className={`rounded-full px-5 py-2 text-xs font-bold transition ${
+                className={`min-h-11 rounded-full px-3 py-2 text-xs font-bold transition sm:min-h-0 sm:px-5 ${
                   mode === item.value
                     ? "bg-primary text-primary-foreground shadow-card"
                     : "text-muted-foreground hover:text-primary"
@@ -625,10 +757,12 @@ function TrendingDestinationsSection() {
 
         <div
           className="relative mt-9"
-          onBlur={() => setIsPaused(false)}
-          onFocus={() => setIsPaused(true)}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) focusRef.current = false;
+          }}
+          onFocus={(event) => {
+            focusRef.current = event.target.matches(":focus-visible");
+          }}
         >
           <Button
             aria-label="Scroll destinations left"
@@ -642,20 +776,24 @@ function TrendingDestinationsSection() {
             <ChevronLeft className="size-5" />
           </Button>
 
-          <div className="hide-scrollbar overflow-x-auto scroll-smooth px-1 md:px-8" ref={trackRef}>
-            <div className="flex w-max py-2">
+          <div className="carousel-mask overflow-hidden px-1 md:px-8">
+            <div
+              className="flex w-max py-2 will-change-transform"
+              data-carousel-track="trending-destinations"
+              ref={trackRef}
+            >
               {[0, 1, 2].map((segment) => (
                 <div
-                  aria-hidden={segment > 0 ? "true" : undefined}
                   className="flex gap-5 pr-5"
-                  inert={segment > 0 ? true : undefined}
                   key={segment}
+                  ref={segment === 1 ? segmentRef : undefined}
                 >
-                  {spotlightItems.map((item) => (
+                  {spotlightItems.map((item, index) => (
                     <Link
                       className="group block w-[140px] shrink-0 text-center sm:w-[160px] lg:w-[174px]"
                       key={`${segment}-${mode}-${item.label}`}
                       {...("params" in item ? { params: item.params } : {})}
+                      ref={segment === 1 && index === 0 ? cardRef : undefined}
                       to={item.to}
                     >
                       <span className="relative block h-[210px] overflow-hidden rounded-full bg-paper-deep shadow-card ring-1 ring-border transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lift sm:h-[238px] lg:h-[258px]">
@@ -693,12 +831,22 @@ function TrendingDestinationsSection() {
           </Button>
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <Button asChild className="rounded-full px-6">
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <Button asChild className="w-full rounded-full px-6 sm:w-auto">
             <Link to={mode === "cities" ? "/destinations" : "/experiences"}>
               Explore Now
               <ArrowRight className="size-4" />
             </Link>
+          </Button>
+          <Button
+            aria-label={isPaused ? "Resume destination scrolling" : "Pause destination scrolling"}
+            className="shrink-0 rounded-full"
+            onClick={() => setIsPaused((paused) => !paused)}
+            size="icon"
+            type="button"
+            variant="outline"
+          >
+            {isPaused ? <Play className="size-4" /> : <Pause className="size-4" />}
           </Button>
         </div>
       </div>

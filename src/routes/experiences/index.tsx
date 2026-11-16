@@ -144,7 +144,7 @@ export function ExperiencesPage({ searchParams }: { searchParams: URLSearchParam
       <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <p className="eyebrow text-gold">Experiences</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Heritage walks, food histories and architecture routes with serious context.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/75">
@@ -162,10 +162,10 @@ export function ExperiencesPage({ searchParams }: { searchParams: URLSearchParam
             description={`${filteredTours.length} of ${tours.length} journeys match your current view.`}
             title="Browse all journeys"
           />
-          <div className="flex items-center gap-3">
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center md:w-auto">
             <Sheet>
               <SheetTrigger asChild>
-                <Button className="lg:hidden" variant="outline">
+                <Button className="w-full sm:w-auto lg:hidden" variant="outline">
                   <SlidersHorizontal className="size-4" />
                   Filters
                   {activeFilterCount ? `(${activeFilterCount})` : ""}
@@ -180,7 +180,7 @@ export function ExperiencesPage({ searchParams }: { searchParams: URLSearchParam
             </Sheet>
 
             <Select value={sort} onValueChange={(value) => setSort(value as SortKey)}>
-              <SelectTrigger className="h-10 w-[190px] bg-background">
+              <SelectTrigger className="h-11 w-full bg-background sm:h-10 sm:w-[190px]">
                 <SelectValue aria-label="Sort journeys" />
               </SelectTrigger>
               <SelectContent>
@@ -223,7 +223,7 @@ export function ExperiencesPage({ searchParams }: { searchParams: URLSearchParam
                 ))}
               </div>
             ) : (
-              <div className="rounded-md border bg-background p-10 text-center shadow-card">
+              <div className="rounded-md border bg-background p-6 text-center shadow-card sm:p-10">
                 <h2 className="text-2xl font-bold text-primary">No journeys found</h2>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
                   Adjust a filter or send us the brief and we will recommend the closest route.
@@ -394,7 +394,7 @@ function FilterCheckbox({
   onChange: () => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 text-sm hover:bg-secondary">
+    <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 text-sm hover:bg-secondary">
       <input
         checked={checked}
         className="size-4 rounded border-input accent-primary"

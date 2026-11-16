@@ -1,24 +1,24 @@
-import heroHeritage from "@/assets/hero-heritage.jpg";
-import expHeritageWalk from "@/assets/exp-heritage-walk.jpg";
-import expFood from "@/assets/exp-food.jpg";
-import expArchitecture from "@/assets/exp-architecture.jpg";
-import expCultural from "@/assets/exp-cultural.jpg";
-import expCurated from "@/assets/exp-curated.jpg";
-import destMumbai from "@/assets/dest-mumbai.jpg";
-import destDelhi from "@/assets/dest-delhi.jpg";
-import destJaipur from "@/assets/dest-jaipur.jpg";
-import destVaranasi from "@/assets/dest-varanasi.jpg";
-import destKolkata from "@/assets/dest-kolkata.jpg";
-import destHyderabad from "@/assets/dest-hyderabad.jpg";
-import destPune from "@/assets/dest-pune.jpg";
-import destGoa from "@/assets/dest-goa.jpg";
-import signatureJourney from "@/assets/signature-journey.jpg";
-import philosophy from "@/assets/philosophy.jpg";
-import storyArchitecture from "@/assets/story-architecture.jpg";
-import storyFood from "@/assets/story-food.jpg";
-import storyPeople from "@/assets/story-people.jpg";
-import galleryMarket from "@/assets/gallery-market.jpg";
-import galleryGroup from "@/assets/gallery-group.jpg";
+import heroHeritage from "@/assets/hero-heritage-premium.png";
+import expHeritageWalk from "@/assets/exp-heritage-walk-upscaled.webp";
+import expFood from "@/assets/exp-food-upscaled.webp";
+import expArchitecture from "@/assets/exp-architecture-upscaled.webp";
+import expCultural from "@/assets/exp-cultural-upscaled.webp";
+import expCurated from "@/assets/exp-curated-upscaled.webp";
+import destMumbai from "@/assets/dest-mumbai-upscaled.webp";
+import destDelhi from "@/assets/dest-delhi-upscaled.webp";
+import destJaipur from "@/assets/dest-jaipur-upscaled.webp";
+import destVaranasi from "@/assets/dest-varanasi-upscaled.webp";
+import destKolkata from "@/assets/dest-kolkata-upscaled.webp";
+import destHyderabad from "@/assets/dest-hyderabad-upscaled.webp";
+import destPune from "@/assets/dest-pune-upscaled.webp";
+import destGoa from "@/assets/dest-goa-upscaled.webp";
+import signatureJourney from "@/assets/signature-journey-upscaled.webp";
+import philosophy from "@/assets/philosophy-upscaled.webp";
+import storyArchitecture from "@/assets/story-architecture-upscaled.webp";
+import storyFood from "@/assets/story-food-upscaled.webp";
+import storyPeople from "@/assets/story-people-upscaled.webp";
+import galleryMarket from "@/assets/gallery-market-upscaled.webp";
+import galleryGroup from "@/assets/gallery-group-upscaled.webp";
 
 export const images = {
   heroHeritage,
@@ -99,6 +99,7 @@ export type Destination = {
   tagline: string;
   intro: string;
   image: string;
+  gallery?: string[];
   neighbourhoods: string[];
   bestTime: string;
   about: string;
@@ -107,7 +108,7 @@ export type Destination = {
   localStories: string;
 };
 
-export const destinations: Destination[] = [
+const legacyDestinations: Destination[] = [
   {
     slug: "mumbai",
     city: "Mumbai",
@@ -276,6 +277,7 @@ export type Tour = {
   reviews: number;
   language: string[];
   image: string;
+  gallery?: string[];
   summary: string;
   overview: string;
   highlights: string[];
@@ -306,7 +308,7 @@ const baseFaqs = [
   },
 ];
 
-export const tours: Tour[] = [
+const legacyTours: Tour[] = [
   {
     slug: "fort-and-kala-ghoda-heritage-walk",
     title: "Fort & Kala Ghoda Heritage Walk",
@@ -972,6 +974,275 @@ export const tours: Tour[] = [
   },
 ];
 
+type JourneyDefinition = {
+  slug: string;
+  title: string;
+  state: string;
+  tagline: string;
+  duration: string;
+  image: string;
+  gallery: string[];
+  days: { time: string; title: string; detail: string }[];
+};
+
+const journeyDefinitions: JourneyDefinition[] = [
+  {
+    slug: "south-goa-temple-run",
+    title: "South Goa Temple Run",
+    state: "Goa",
+    tagline: "Goa's sacred temples, far from the beaches.",
+    duration: "3 days",
+    image: "/destinations/south-goa/mangeshi-premium.png",
+    gallery: [
+      "/destinations/south-goa/mangeshi-premium.png",
+      "/destinations/south-goa/Sapthakoteshwar-upscaled.webp",
+    ],
+    days: [
+      {
+        time: "Day 1",
+        title: "Nageshi, Mangeshi and Shanta Durga",
+        detail:
+          "Begin with two of Goa's best-known temples and their distinctive architecture.",
+      },
+      {
+        time: "Day 2",
+        title: "Saptakoteshwar",
+        detail: "Spend the day on the history and story of this ancient Shiva temple.",
+      },
+      {
+        time: "Day 3",
+        title: "Bhairoba Goa",
+        detail:
+          "Visit the local shrine, learn about village deity traditions, and wrap up the trip.",
+      },
+    ],
+  },
+  {
+    slug: "hampi-heritage-trail",
+    title: "Hampi Heritage Trail",
+    state: "Karnataka",
+    tagline: "Walk through the ruins of an empire.",
+    duration: "3-4 days",
+    image: "/destinations/hampi/Vijayanagara-premium.png",
+    gallery: [
+      "/destinations/hampi/Vijayanagara-premium.png",
+      "/destinations/hampi/Kishkindha-upscaled.webp",
+      "/destinations/hampi/Jain%20Temple-upscaled.webp",
+      "/destinations/hampi/0318f34cbdaaeaa3db7d70bddb30e561-upscaled.webp",
+      "/destinations/hampi/e02be3f1b23aa1169c0a5effbea43c7f-upscaled.webp",
+    ],
+    days: [
+      {
+        time: "Day 1",
+        title: "Vijayanagar",
+        detail: "Explore the royal and sacred centres of the old capital.",
+      },
+      {
+        time: "Day 2",
+        title: "Kishkindha",
+        detail: "Cross to the legendary landscape linked to the Ramayana.",
+      },
+      {
+        time: "Day 3",
+        title: "Jain Prabhag",
+        detail: "Discover Hampi's lesser-known Jain heritage.",
+      },
+      {
+        time: "Day 4 (optional)",
+        title: "A slower day",
+        detail: "Revisit favourite sites, sunrise viewpoints, and photography.",
+      },
+    ],
+  },
+  {
+    slug: "coastal-karnataka-heritage",
+    title: "Coastal Karnataka Heritage",
+    state: "Karnataka coast",
+    tagline: "Temples, shores, and traditions along the Karnataka coast.",
+    duration: "4-5 days",
+    image: "/destinations/coastal-karnataka/Karwar-upscaled.webp",
+    gallery: [
+      "/destinations/coastal-karnataka/Karwar-upscaled.webp",
+      "/destinations/coastal-karnataka/Gokarna-upscaled.webp",
+      "/destinations/coastal-karnataka/Murudeshwar-upscaled.webp",
+      "/destinations/coastal-karnataka/Udupi-upscaled.webp",
+      "/destinations/coastal-karnataka/Karkala-upscaled.webp",
+      "/destinations/coastal-karnataka/264295f44288512c49cb4a74ff2b5690-upscaled.webp",
+    ],
+    days: [
+      {
+        time: "Day 1",
+        title: "Karwar",
+        detail: "Start at the port town and its coastal history.",
+      },
+      {
+        time: "Day 2",
+        title: "Gokarna",
+        detail: "Visit the pilgrimage town and its temples.",
+      },
+      {
+        time: "Day 3",
+        title: "Murudeshwar",
+        detail: "See the seaside Shiva temple.",
+      },
+      {
+        time: "Day 4",
+        title: "Udupi",
+        detail: "Explore the temple town and its famous food traditions.",
+      },
+      {
+        time: "Day 5",
+        title: "Karkala",
+        detail: "Finish with the Jain monuments and heritage of the town.",
+      },
+    ],
+  },
+  {
+    slug: "marathwada-heritage-trail",
+    title: "Marathwada Heritage Trail",
+    state: "Maharashtra and Telangana",
+    tagline: "Deccan history, from sultanates to the Nizams.",
+    duration: "4 days",
+    image: "/destinations/marathwada/Solapur-upscaled.webp",
+    gallery: [
+      "/destinations/marathwada/Solapur-upscaled.webp",
+      "/destinations/marathwada/Hyderabad-upscaled.webp",
+      "/destinations/marathwada/Sambhajinagar-upscaled.webp",
+      "/destinations/marathwada/Pune-upscaled.webp",
+    ],
+    days: [
+      {
+        time: "Day 1",
+        title: "Solapur",
+        detail: "Begin with the fort and the region's old trade town.",
+      },
+      {
+        time: "Day 2",
+        title: "Latur",
+        detail: "Continue through the heart of Marathwada.",
+      },
+      {
+        time: "Day 3",
+        title: "Hyderabad",
+        detail: "Spend the day on the monuments and old city of the Nizams.",
+      },
+      {
+        time: "Day 4",
+        title: "Chhatrapati Sambhajinagar, then return to Pune",
+        detail: "Close with the caves, forts, and tombs of the old Deccan capital.",
+      },
+    ],
+  },
+  {
+    slug: "western-maharashtra-heritage",
+    title: "Western Maharashtra Heritage",
+    state: "Maharashtra",
+    tagline: "The Maratha heartland, town by town.",
+    duration: "2 days (please confirm)",
+    image: "/destinations/western-maharashtra/Satara-upscaled.webp",
+    gallery: [
+      "/destinations/western-maharashtra/Satara-upscaled.webp",
+      "/destinations/western-maharashtra/wai-upscaled.webp",
+      "/destinations/western-maharashtra/Kolhapur-upscaled.webp",
+      "/destinations/western-maharashtra/Narsobachi%20Wadi-upscaled.webp",
+      "/destinations/western-maharashtra/karad-upscaled.webp",
+    ],
+    days: [
+      {
+        time: "Day 1",
+        title: "Pune, Wai and Satara",
+        detail:
+          "Start with the old city, then travel to the ghats and hill towns of the Krishna valley.",
+      },
+      {
+        time: "Day 2",
+        title: "Kolhapur, Narsobachi Wadi and Karad",
+        detail:
+          "Visit the temple city, the riverside shrine, and end at the confluence town of Karad.",
+      },
+    ],
+  },
+  {
+    slug: "northern-karnataka-heritage",
+    title: "Northern Karnataka Heritage",
+    state: "Karnataka",
+    tagline: "Where Indian temple architecture began.",
+    duration: "3-4 days",
+    image: "/destinations/northern-karnataka/Badami-premium.png",
+    gallery: [
+      "/destinations/northern-karnataka/Badami-premium.png",
+      "/destinations/northern-karnataka/Aihole-premium.png",
+      "/destinations/northern-karnataka/Pattadakal-upscaled.webp",
+    ],
+    days: [
+      {
+        time: "Day 1",
+        title: "Badami",
+        detail: "Explore the cave temples and the old Chalukyan capital.",
+      },
+      {
+        time: "Day 2",
+        title: "Aihole",
+        detail: "See the early experimental temples, often called the cradle of temple architecture.",
+      },
+      {
+        time: "Day 3",
+        title: "Pattadakal",
+        detail: "Finish at the UNESCO-listed temple complex.",
+      },
+      {
+        time: "Day 4 (optional)",
+        title: "A flexible day",
+        detail: "Revisit sites or explore nearby villages.",
+      },
+    ],
+  },
+];
+
+export const destinations: Destination[] = journeyDefinitions.map((journey) => ({
+  slug: journey.slug,
+  city: journey.title,
+  state: journey.state,
+  tagline: journey.tagline,
+  intro: journey.tagline,
+  image: journey.image,
+  gallery: journey.gallery,
+  neighbourhoods: journey.days.map((day) => day.title),
+  bestTime: journey.duration,
+  about: `A ${journey.duration} heritage route through ${journey.days.map((day) => day.title).join(", ")}.`,
+  food: "Local food traditions can be added to the route during planning.",
+  architecture: journey.days.map((day) => day.detail).join(" "),
+  localStories: journey.tagline,
+}));
+
+export const tours: Tour[] = journeyDefinitions.map((journey) => ({
+  slug: journey.slug,
+  title: journey.title,
+  destination: journey.title,
+  destinationSlug: journey.slug,
+  category: "Curated Journeys",
+  categorySlug: "curated-journeys",
+  duration: journey.duration,
+  durationBand: "Multi-day",
+  price: 0,
+  rating: 0,
+  reviews: 0,
+  language: ["English", "Hindi"],
+  image: journey.image,
+  gallery: journey.gallery.slice(0, 4),
+  summary: journey.tagline,
+  overview: `Follow a carefully paced route through ${journey.days.map((day) => day.title).join(", ")}.`,
+  highlights: journey.days.map((day) => day.title),
+  discover: journey.days.map((day) => day.detail),
+  itinerary: journey.days,
+  meetingPoint: "Meeting points, transfers and departure details are confirmed after enquiry.",
+  included: ["Route planning", "Heritage itinerary", "Local context notes"],
+  excluded: ["Accommodation", "Meals", "Travel between locations"],
+  important: ["Opening hours and access can change", "Please confirm dates before booking"],
+  faqs: baseFaqs,
+  popular: true,
+}));
+
 export const seasonalThemes = [
   {
     name: "Monsoon Heritage Walks",
@@ -1080,6 +1351,9 @@ export const gallery = [
 export const durationBands = ["Under 3 hours", "3–5 hours", "Full day", "Multi-day"] as const;
 export const languages = ["English", "Hindi", "Marathi", "Bengali", "Telugu", "Konkani", "Urdu"];
 
-export function formatPrice(value: number) {
+function legacyFormatPrice(value: number) {
   return `₹${value.toLocaleString("en-IN")}`;
+}
+export function formatPrice(value: number) {
+  return value ? `INR ${value.toLocaleString("en-IN")}` : "Price on request";
 }

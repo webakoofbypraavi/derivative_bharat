@@ -49,7 +49,7 @@ export function ContactPage() {
       <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
           <p className="eyebrow text-gold">Contact</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Start with the city, date or story on your mind.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/78">
@@ -86,7 +86,7 @@ export function ContactPage() {
           </div>
         </div>
 
-        <div className="rounded-md border bg-background p-6 shadow-panel">
+        <div className="rounded-md border bg-background p-4 shadow-panel sm:p-6">
           <SectionHeader
             className="mb-6"
             description="Share enough for us to understand the shape of the journey. Dates can be approximate."
@@ -115,7 +115,7 @@ export function ContactPage() {
                 <Field id="email" label="Email" placeholder="you@example.com" type="email" />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field id="city" label="City or route" placeholder="Mumbai, Delhi, Goa..." />
+                <Field id="city" label="City or route" placeholder="Hampi, Goa, Karnataka..." />
                 <Field id="date" label="Travel date" type="date" />
               </div>
               <div>
@@ -202,9 +202,9 @@ function ContactCard({
       <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-secondary text-accent">
         {icon}
       </span>
-      <span>
+      <span className="min-w-0">
         <span className="block text-xs font-semibold uppercase text-muted-foreground">{label}</span>
-        <span className="mt-1 block font-semibold text-primary">{value}</span>
+        <span className="mt-1 block break-words font-semibold text-primary">{value}</span>
       </span>
     </a>
   );

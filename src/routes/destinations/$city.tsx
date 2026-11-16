@@ -49,6 +49,7 @@ export function DestinationDetailPage({ city }: { city: string }) {
 
   const cityTours = tours.filter((tour) => tour.destinationSlug === destination.slug);
   const categories = Array.from(new Set(cityTours.map((tour) => tour.category)));
+  const destinationGallery = destination.gallery ?? [destination.image];
 
   return (
     <>
@@ -62,8 +63,10 @@ export function DestinationDetailPage({ city }: { city: string }) {
         <div className="relative mx-auto flex min-h-[56svh] max-w-7xl items-end px-4 py-14 lg:px-8">
           <div className="max-w-4xl">
             <p className="eyebrow text-gold">{destination.state}</p>
-            <h1 className="mt-3 font-display text-5xl font-bold sm:text-6xl">{destination.city}</h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-primary-foreground/82">
+            <h1 className="mt-3 font-display text-4xl font-bold leading-tight sm:text-6xl">
+              {destination.city}
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/82 sm:text-lg">
               {destination.intro}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -80,10 +83,41 @@ export function DestinationDetailPage({ city }: { city: string }) {
         </div>
       </section>
 
+      {destinationGallery.length > 1 ? (
+        <section className="border-b bg-paper-deep">
+          <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <div>
+                <p className="eyebrow">Field images</p>
+                <h2 className="mt-2 text-2xl font-bold text-primary">Along this route</h2>
+              </div>
+              <p className="hidden text-sm text-muted-foreground sm:block">
+                Places and landmarks included in the journey.
+              </p>
+            </div>
+            <div className="grid auto-rows-[180px] grid-cols-2 gap-3 sm:grid-cols-3 lg:auto-rows-[220px] lg:grid-cols-4">
+              {destinationGallery.map((image, index) => (
+                <img
+                  alt={`${destination.city} route image ${index + 1}`}
+                  className={`h-full w-full rounded-md object-cover shadow-card ${
+                    index === 0 ? "col-span-2 row-span-2" : ""
+                  }`}
+                  key={image}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  src={image}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div>
           <p className="eyebrow">City note</p>
-          <h2 className="mt-3 text-3xl font-bold text-primary">{destination.tagline}</h2>
+          <h2 className="mt-3 text-2xl font-bold text-primary sm:text-3xl">
+            {destination.tagline}
+          </h2>
           <p className="mt-5 text-base leading-8 text-muted-foreground">{destination.about}</p>
           <div className="mt-7 flex flex-wrap gap-2">
             {destination.neighbourhoods.map((neighbourhood) => (
@@ -99,10 +133,16 @@ export function DestinationDetailPage({ city }: { city: string }) {
 
         <div className="rounded-md border bg-background p-5 shadow-card">
           <Tabs defaultValue="food">
-            <TabsList className="grid h-auto w-full grid-cols-3">
-              <TabsTrigger value="food">Food</TabsTrigger>
-              <TabsTrigger value="architecture">Architecture</TabsTrigger>
-              <TabsTrigger value="stories">Stories</TabsTrigger>
+            <TabsList className="grid h-auto w-full grid-cols-1 gap-1 sm:grid-cols-3">
+              <TabsTrigger className="justify-start sm:justify-center" value="food">
+                Food
+              </TabsTrigger>
+              <TabsTrigger className="justify-start sm:justify-center" value="architecture">
+                Architecture
+              </TabsTrigger>
+              <TabsTrigger className="justify-start sm:justify-center" value="stories">
+                Stories
+              </TabsTrigger>
             </TabsList>
             <TabsContent className="mt-6" value="food">
               <PanelText title="Food lineages" text={destination.food} />
@@ -121,7 +161,7 @@ export function DestinationDetailPage({ city }: { city: string }) {
         <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <SectionHeader
             action={
-              <Button asChild variant="outline">
+              <Button asChild className="w-full sm:w-auto" variant="outline">
                 <a href={`/experiences?destination=${destination.slug}`}>
                   Filter All {destination.city} Tours
                   <ArrowRight className="size-4" />
@@ -140,7 +180,7 @@ export function DestinationDetailPage({ city }: { city: string }) {
           {cityTours.length ? (
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {cityTours.map((tour) => (
-                <TourCard key={tour.slug} showDestination={false} tour={tour} />
+                <TourCard key={tour.slug} tour={tour} />
               ))}
             </div>
           ) : (
@@ -176,7 +216,7 @@ function DestinationNotFound() {
   return (
     <section className="mx-auto max-w-3xl px-4 py-24 text-center lg:px-8">
       <p className="eyebrow">Destination not found</p>
-      <h1 className="mt-3 text-4xl font-bold text-primary">This city page has moved</h1>
+      <h1 className="mt-3 text-3xl font-bold text-primary sm:text-4xl">This city page has moved</h1>
       <p className="mt-4 text-base leading-7 text-muted-foreground">
         Browse the current destination guide or ask us about a custom route.
       </p>

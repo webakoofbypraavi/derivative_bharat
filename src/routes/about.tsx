@@ -38,7 +38,7 @@ export function AboutPage() {
         />
         <div className="relative mx-auto max-w-7xl px-4 py-16 lg:px-8">
           <p className="eyebrow text-gold">About Derivative Bharat</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Travel that treats places as living archives.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-primary-foreground/80">
@@ -60,7 +60,7 @@ export function AboutPage() {
         </div>
         <div>
           <p className="eyebrow">Our philosophy</p>
-          <h2 className="mt-3 text-4xl font-bold text-primary">
+          <h2 className="mt-3 text-3xl font-bold text-primary sm:text-4xl">
             Context first, access carefully, pace humanly.
           </h2>
           <p className="mt-5 text-base leading-8 text-muted-foreground">
@@ -73,7 +73,7 @@ export function AboutPage() {
             listen, test the pace, then return with travellers only when the route can hold a real
             conversation.
           </p>
-          <Button asChild className="mt-7">
+          <Button asChild className="mt-7 w-full sm:w-auto">
             <Link to="/experiences">
               See the Journeys
               <ArrowRight className="size-4" />

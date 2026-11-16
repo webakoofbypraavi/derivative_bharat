@@ -113,6 +113,11 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    min-width: 0;
+  }
+
+  html {
+    overflow-x: hidden;
   }
 
   body {
@@ -120,6 +125,8 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    text-size-adjust: 100%;
   }
 
   h1,
@@ -131,9 +138,18 @@
   }
 
   select,
+  input,
+  textarea,
   select option {
     background-color: var(--paper);
     color: var(--foreground);
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
   }
 
   ::selection {
@@ -177,6 +193,35 @@
   animation: db-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Homepage hero treatment: a framed image, calm left-aligned copy, and an overlapping search panel. */
+.home-hero-section {
+  height: 560px;
+}
+
+.home-hero-copy {
+  text-shadow: 0 2px 18px oklch(0.08 0.02 30 / 0.24);
+}
+
+.home-hero-copy .eyebrow {
+  text-shadow: none;
+}
+
+.hero-search-wrap {
+  margin-top: -60px;
+  margin-bottom: 0;
+}
+
+.hero-search-panel {
+  min-height: 130px;
+  align-items: end;
+  padding: 1.3rem;
+  box-shadow: 0 24px 55px oklch(0.2 0.04 30 / 0.15);
+}
+
+.hero-search-panel label > span {
+  color: var(--muted-foreground);
+}
+
 .db-carousel {
   --db-carousel-duration: 34s;
 }
@@ -198,13 +243,41 @@
   padding-right: 1.25rem;
 }
 
-.mobile-nav-trigger {
-  position: fixed;
-  top: 4.65rem;
-  right: 1rem;
-  z-index: 50;
-  display: flex;
-  flex-shrink: 0;
+.journey-offer-card {
+  animation: db-offer-card-reveal 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.experience-section-intro,
+.experience-lens-panel,
+.experience-lens-card,
+.destination-section-intro,
+.destination-guide-panel,
+.destination-card {
+  animation: db-offer-card-reveal 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.experience-lens-panel,
+.destination-guide-panel {
+  animation-delay: 90ms;
+}
+
+.experience-lens-card,
+.destination-card {
+  backface-visibility: hidden;
+}
+
+.journey-card-shine {
+  opacity: 0;
+  transform: translateX(-140%) skewX(-18deg);
+}
+
+.journey-offer-card:hover .journey-card-shine,
+.journey-offer-card:focus-visible .journey-card-shine,
+.experience-lens-card:hover .journey-card-shine,
+.experience-lens-card:focus-visible .journey-card-shine,
+.destination-card:hover .journey-card-shine,
+.destination-card:focus-visible .journey-card-shine {
+  animation: db-card-shine 0.95s ease;
 }
 
 @keyframes db-fade-up {
@@ -215,6 +288,31 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes db-offer-card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes db-card-shine {
+  0% {
+    opacity: 0;
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(260%) skewX(-18deg);
   }
 }
 
@@ -241,8 +339,21 @@
   }
 }
 
-@media (width >= 64rem) {
-  .mobile-nav-trigger {
-    display: none;
+@media (max-width: 700px) {
+  .home-hero-section {
+    height: 500px;
+  }
+
+  .home-hero-section > img {
+    object-position: 63% center;
+  }
+
+  .hero-search-wrap {
+    margin-top: -32px;
+  }
+
+  .hero-search-panel {
+    min-height: 0;
+    padding: 0.8rem;
   }
 }
