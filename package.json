@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "start": "node server.js",
     "server": "node --watch server/index.js",
     "db:setup": "node server/setup.js",
     "dev:full": "concurrently \"npm run server\" \"npm run dev\"",

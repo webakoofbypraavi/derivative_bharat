@@ -1,4 +1,6 @@
 import "dotenv/config";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import cors from "cors";
 import express from "express";
 import bcrypt from "bcryptjs";
@@ -7,7 +9,9 @@ import { jsonValue, normalizeRecord, pool, serializeJson } from "./db.js";
 import { appendInquiryToGoogleSheet } from "./google-sheets.js";
 
 const app = express();
-const port = Number(process.env.API_PORT || 8787);
+const port = Number(process.env.PORT || process.env.API_PORT || 8787);
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const clientBuild = path.join(projectRoot, "..", "dist");
 const jwtSecret = process.env.JWT_SECRET || "development-only-change-this-secret";
 
 app.use(cors({ origin: true, credentials: false }));
@@ -423,6 +427,14 @@ app.post("/api/inquiries", async (request, response) => {
     console.error(error);
     return sendError(response, 503, "We could not save your inquiry right now.");
   }
+});
+
+app.use(express.static(clientBuild));
+app.use((request, response, next) => {
+  if (request.method !== "GET" || request.path.startsWith("/api/")) return next();
+  response.sendFile(path.join(clientBuild, "index.html"), (error) => {
+    if (error) next(error);
+  });
 });
 
 app.use((error, _request, response, _next) => {
