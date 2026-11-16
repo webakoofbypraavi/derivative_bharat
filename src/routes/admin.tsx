@@ -12,6 +12,7 @@ import {
   Map,
   Menu,
   Plus,
+  Route,
   Search,
   Trash2,
   Users,
@@ -19,13 +20,15 @@ import {
 } from "lucide-react";
 import "@/admin.css";
 
-type ResourceName = "destinations" | "experiences" | "stories";
+type ResourceName = "destinations" | "experiences" | "tours" | "categories" | "stories";
 // CMS records intentionally mirror flexible JSON fields from MySQL.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AdminRecord = any;
 type Summary = {
   destinations: number;
   experiences: number;
+  tours: number;
+  categories: number;
   stories: number;
   inquiries: number;
   newInquiries: number;
@@ -34,8 +37,10 @@ type Summary = {
 type Field = {
   key: string;
   label: string;
-  type?: "textarea" | "json" | "checkbox";
+  type?: "textarea" | "json" | "list" | "number" | "select" | "checkbox";
   placeholder?: string;
+  options?: string[];
+  required?: boolean;
 };
 
 const resourceConfig: Record<ResourceName, { label: string; icon: typeof Map; fields: Field[] }> = {
@@ -48,6 +53,7 @@ const resourceConfig: Record<ResourceName, { label: string; icon: typeof Map; fi
       { key: "state", label: "State" },
       { key: "tagline", label: "Tagline" },
       { key: "image_url", label: "Image URL" },
+      { key: "gallery", label: "Gallery image URLs (one per line)", type: "list" },
       { key: "best_time", label: "Best time" },
       { key: "intro", label: "Introduction", type: "textarea" },
       { key: "about", label: "About", type: "textarea" },
@@ -60,7 +66,7 @@ const resourceConfig: Record<ResourceName, { label: string; icon: typeof Map; fi
         type: "json",
         placeholder: '["Old City", "Bazaar"]',
       },
-      { key: "status", label: "Status" },
+      { key: "status", label: "Status", type: "select", options: ["draft", "published"] },
     ],
   },
   experiences: {
@@ -93,7 +99,67 @@ const resourceConfig: Record<ResourceName, { label: string; icon: typeof Map; fi
       },
       { key: "trending", label: "Trending", type: "checkbox" },
       { key: "popular", label: "Popular", type: "checkbox" },
-      { key: "status", label: "Status" },
+      { key: "status", label: "Status", type: "select", options: ["draft", "published"] },
+    ],
+  },
+  tours: {
+    label: "Tours",
+    icon: Route,
+    fields: [
+      { key: "title", label: "Tour title", placeholder: "Hampi Heritage Trail", required: true },
+      { key: "slug", label: "URL slug", placeholder: "hampi-heritage-trail", required: true },
+      { key: "destination", label: "Destination", required: true },
+      { key: "destination_slug", label: "Destination slug", required: true },
+      { key: "category", label: "Category", required: true },
+      { key: "category_slug", label: "Category slug", required: true },
+      { key: "duration", label: "Duration", placeholder: "3 days", required: true },
+      {
+        key: "duration_band",
+        label: "Duration filter",
+        type: "select",
+        options: ["Under 3 hours", "3–5 hours", "Full day", "Multi-day"],
+        required: true,
+      },
+      { key: "price", label: "Price (INR)", type: "number" },
+      { key: "rating", label: "Rating", type: "number" },
+      { key: "reviews", label: "Review count", type: "number" },
+      {
+        key: "image_url",
+        label: "Cover image URL",
+        placeholder: "/destinations/hampi/image.webp",
+        required: true,
+      },
+      { key: "language", label: "Languages (one per line)", type: "list" },
+      { key: "gallery", label: "Gallery image URLs (one per line)", type: "list" },
+      { key: "summary", label: "Short description", type: "textarea", required: true },
+      { key: "overview", label: "Overview", type: "textarea", required: true },
+      { key: "highlights", label: "Highlights (one per line)", type: "list" },
+      { key: "discover", label: "What travellers discover (one per line)", type: "list" },
+      {
+        key: "itinerary",
+        label: "Day-by-day itinerary (JSON)",
+        type: "json",
+        placeholder: '[{"time":"Day 1","title":"Hampi","detail":"Explore the ruins."}]',
+      },
+      { key: "meeting_point", label: "Meeting point", type: "textarea" },
+      { key: "included", label: "Included (one per line)", type: "list" },
+      { key: "excluded", label: "Not included (one per line)", type: "list" },
+      { key: "important", label: "Travel notes (one per line)", type: "list" },
+      {
+        key: "faqs",
+        label: "Frequently asked questions (JSON)",
+        type: "json",
+        placeholder: '[{"q":"How large are the groups?","a":"Small groups of 6 to 12."}]',
+      },
+      { key: "seasonal", label: "Seasonal collection" },
+      { key: "trending", label: "Feature as trending", type: "checkbox" },
+      { key: "popular", label: "Feature as popular", type: "checkbox" },
+      {
+        key: "status",
+        label: "Publication status",
+        type: "select",
+        options: ["draft", "published"],
+      },
     ],
   },
   stories: {
@@ -107,7 +173,19 @@ const resourceConfig: Record<ResourceName, { label: string; icon: typeof Map; fi
       { key: "image_url", label: "Image URL" },
       { key: "excerpt", label: "Excerpt", type: "textarea" },
       { key: "body", label: "Story body", type: "textarea" },
-      { key: "status", label: "Status" },
+      { key: "status", label: "Status", type: "select", options: ["draft", "published"] },
+    ],
+  },
+  categories: {
+    label: "Experience categories",
+    icon: Compass,
+    fields: [
+      { key: "slug", label: "Slug", placeholder: "heritage-walks" },
+      { key: "title", label: "Category name" },
+      { key: "short", label: "Short label", type: "textarea" },
+      { key: "description", label: "Description", type: "textarea" },
+      { key: "image_url", label: "Image URL" },
+      { key: "status", label: "Status", type: "select", options: ["draft", "published"] },
     ],
   },
 };
@@ -120,6 +198,8 @@ const navItems: {
   { key: "overview", label: "Overview", icon: LayoutDashboard },
   { key: "destinations", label: "Destinations", icon: Map },
   { key: "experiences", label: "Experiences", icon: Compass },
+  { key: "tours", label: "Tours", icon: Route },
+  { key: "categories", label: "Categories", icon: Compass },
   { key: "stories", label: "Stories", icon: BookOpen },
   { key: "inquiries", label: "Inquiries", icon: Users },
 ];
@@ -336,6 +416,14 @@ export function AdminPage() {
               try {
                 await api(`/admin/${section}/${record.id}`, token, { method: "DELETE" });
                 setRecords((items) => items.filter((item) => item.id !== record.id));
+                window.dispatchEvent(new Event("site:content-updated"));
+                if (section !== "overview" && section !== "inquiries") {
+                  setSummary((current) =>
+                    current
+                      ? { ...current, [section]: Math.max(0, current[section] - 1) }
+                      : current,
+                  );
+                }
                 setMessage("Record deleted.");
               } catch (reason) {
                 setError((reason as Error).message);
@@ -356,6 +444,11 @@ export function AdminPage() {
                 ? items.map((item) => (item.id === saved.id ? saved : item))
                 : [saved, ...items],
             );
+            if (!editor.record.id) {
+              setSummary((current) =>
+                current ? { ...current, [editor.resource]: current[editor.resource] + 1 } : current,
+              );
+            }
             setEditor(null);
             setMessage("Content saved successfully.");
           }}
@@ -456,6 +549,20 @@ function Overview({
       color: "rose",
     },
     {
+      key: "tours" as const,
+      label: "Tours",
+      value: summary?.tours ?? 0,
+      icon: Route,
+      color: "gold",
+    },
+    {
+      key: "categories" as const,
+      label: "Categories",
+      value: summary?.categories ?? 0,
+      icon: Compass,
+      color: "sand",
+    },
+    {
       key: "stories" as const,
       label: "Stories",
       value: summary?.stories ?? 0,
@@ -529,6 +636,14 @@ function Overview({
             </span>
             <FilePenLine size={16} />
           </button>
+          <button onClick={() => onNavigate("tours")}>
+            <span>
+              <Route size={17} />
+              <strong>Add a tour</strong>
+              <small>Manage its story, price and itinerary.</small>
+            </span>
+            <Plus size={16} />
+          </button>
           <button onClick={() => onNavigate("stories")}>
             <span>
               <BookOpen size={17} />
@@ -578,6 +693,14 @@ function ResourceTable({
 }) {
   const config = resourceConfig[resource];
   const rows = useMemo(() => records, [records]);
+  const singular =
+    resource === "stories"
+      ? "story"
+      : resource === "categories"
+        ? "category"
+        : resource === "destinations"
+          ? "destination"
+          : resource.slice(0, -1);
   return (
     <div className="admin-resource">
       <div className="admin-resource-toolbar">
@@ -589,20 +712,30 @@ function ResourceTable({
         </div>
         <button className="admin-primary-button" onClick={onCreate}>
           <Plus size={16} />
-          Add {resource === "experiences" ? "experience" : resource.slice(0, -1)}
+          Add {singular}
         </button>
       </div>
       <div className="admin-table-wrap">
         <table>
           <thead>
             <tr>
-              <th>{resource === "destinations" ? "City" : "Title"}</th>
+              <th>
+                {resource === "destinations"
+                  ? "Destination"
+                  : resource === "categories"
+                    ? "Category"
+                    : "Title"}
+              </th>
               <th>
                 {resource === "stories"
                   ? "Category"
                   : resource === "destinations"
                     ? "State"
-                    : "Destination"}
+                    : resource === "tours"
+                      ? "Destination · Category"
+                      : resource === "categories"
+                        ? "Short description"
+                      : "Destination"}
               </th>
               <th>Updated</th>
               <th>Status</th>
@@ -617,7 +750,11 @@ function ResourceTable({
                     <strong>{record.city ?? record.title}</strong>
                     <small>{record.slug}</small>
                   </td>
-                  <td>{record.state ?? record.destination ?? record.category}</td>
+                  <td>
+                    {resource === "tours"
+                      ? [record.destination, record.category].filter(Boolean).join(" · ")
+                      : (record.state ?? record.destination ?? record.category ?? record.short)}
+                  </td>
                   <td>
                     {record.updated_at
                       ? new Date(record.updated_at).toLocaleDateString("en-IN")
@@ -767,9 +904,20 @@ function Editor({
         field.key,
         field.type === "checkbox"
           ? Boolean(record[field.key])
+          : field.type === "list"
+            ? Array.isArray(record[field.key])
+              ? record[field.key].join("\n")
+              : ""
           : field.type === "json"
             ? JSON.stringify(record[field.key] ?? [], null, 2)
-            : String(record[field.key] ?? (field.key === "status" ? "draft" : "")),
+            : String(
+                record[field.key] ??
+                  (field.key === "status"
+                    ? "draft"
+                    : field.key === "duration_band"
+                      ? "Multi-day"
+                      : ""),
+              ),
       ]),
     ),
   );
@@ -786,6 +934,12 @@ function Editor({
       const payload: AdminRecord = { ...form };
       for (const field of fields) {
         if (field.type === "json") payload[field.key] = JSON.parse(String(form[field.key] || "[]"));
+        if (field.type === "list")
+          payload[field.key] = String(form[field.key] || "")
+            .split("\n")
+            .map((value) => value.trim())
+            .filter(Boolean);
+        if (field.type === "number") payload[field.key] = Number(form[field.key] || 0);
         if (field.type === "checkbox") payload[field.key] = Boolean(form[field.key]);
       }
       const saved = await api(
@@ -793,6 +947,7 @@ function Editor({
         token,
         { method: record.id ? "PUT" : "POST", body: JSON.stringify(payload) },
       );
+      window.dispatchEvent(new Event("site:content-updated"));
       onSaved(saved);
     } catch (reason) {
       setError((reason as Error).message);
@@ -818,8 +973,8 @@ function Editor({
             <span className="admin-kicker">{record.id ? "Edit record" : "New record"}</span>
             <h2 id="editor-title">
               {record.id
-                ? `Update ${resourceConfig[resource].label.slice(0, -1).toLowerCase()}`
-                : `Add ${resourceConfig[resource].label.slice(0, -1).toLowerCase()}`}
+              ? `Update ${resource === "stories" ? "story" : resource === "categories" ? "category" : resourceConfig[resource].label.slice(0, -1).toLowerCase()}`
+                : `Add ${resource === "stories" ? "story" : resource === "categories" ? "category" : resourceConfig[resource].label.slice(0, -1).toLowerCase()}`}
             </h2>
           </div>
           <button aria-label="Close editor" onClick={onClose}>
@@ -841,24 +996,40 @@ function Editor({
               ) : (
                 <label
                   className={
-                    field.type === "textarea" || field.type === "json"
+                    field.type === "textarea" || field.type === "json" || field.type === "list"
                       ? "admin-field admin-field-wide"
                       : "admin-field"
                   }
                   key={field.key}
                 >
                   {field.label}
-                  {field.type === "textarea" || field.type === "json" ? (
-                    <textarea
-                      placeholder={field.placeholder}
+                  {field.type === "select" ? (
+                    <select
+                      required={field.required}
                       value={String(form[field.key] ?? "")}
                       onChange={(event) => update(field.key, event.target.value)}
-                      rows={field.type === "json" ? 5 : 4}
+                    >
+                      <option value="">Choose {field.label.toLowerCase()}</option>
+                      {field.options?.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  ) : field.type === "textarea" || field.type === "json" || field.type === "list" ? (
+                    <textarea
+                      placeholder={field.placeholder}
+                      required={field.required}
+                      value={String(form[field.key] ?? "")}
+                      onChange={(event) => update(field.key, event.target.value)}
+                      rows={field.type === "json" ? 7 : 4}
                     />
                   ) : (
                     <input
                       placeholder={field.placeholder}
-                      required={!record.id && ["slug", "title", "city"].includes(field.key)}
+                      required={field.required || (!record.id && ["slug", "title", "city"].includes(field.key))}
+                      type={field.type === "number" ? "number" : "text"}
+                      step={field.key === "price" || field.key === "rating" ? "0.01" : undefined}
                       value={String(form[field.key] ?? "")}
                       onChange={(event) => update(field.key, event.target.value)}
                     />

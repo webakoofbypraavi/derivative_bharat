@@ -34,12 +34,34 @@ function parseBody(body, fields) {
       .filter((field) => body[field] !== undefined)
       .map((field) => [
         field,
-        ["neighbourhoods", "language", "itinerary"].includes(field)
+        [
+          "neighbourhoods",
+          "language",
+          "gallery",
+          "highlights",
+          "discover",
+          "itinerary",
+          "included",
+          "excluded",
+          "important",
+          "faqs",
+        ].includes(field)
           ? serializeJson(body[field])
           : body[field],
       ]),
   );
-  for (const field of ["neighbourhoods", "language", "itinerary"]) {
+  for (const field of [
+    "neighbourhoods",
+    "language",
+    "gallery",
+    "highlights",
+    "discover",
+    "itinerary",
+    "included",
+    "excluded",
+    "important",
+    "faqs",
+  ]) {
     if (fields.includes(field) && parsed[field] === undefined) parsed[field] = "[]";
   }
   if (fields.includes("status") && parsed.status === undefined) parsed.status = "draft";
@@ -69,6 +91,7 @@ const resourceConfig = {
       "tagline",
       "intro",
       "image_url",
+      "gallery",
       "neighbourhoods",
       "best_time",
       "about",
@@ -123,6 +146,55 @@ const resourceConfig = {
       "image_url",
     ],
   },
+  tours: {
+    fields: [
+      "slug",
+      "title",
+      "destination",
+      "destination_slug",
+      "category",
+      "category_slug",
+      "duration",
+      "duration_band",
+      "price",
+      "rating",
+      "reviews",
+      "language",
+      "image_url",
+      "gallery",
+      "summary",
+      "overview",
+      "highlights",
+      "discover",
+      "itinerary",
+      "meeting_point",
+      "included",
+      "excluded",
+      "important",
+      "faqs",
+      "trending",
+      "seasonal",
+      "popular",
+      "status",
+    ],
+    required: [
+      "slug",
+      "title",
+      "destination",
+      "destination_slug",
+      "category",
+      "category_slug",
+      "duration",
+      "duration_band",
+      "image_url",
+      "summary",
+      "overview",
+    ],
+  },
+  categories: {
+    fields: ["slug", "title", "short", "description", "image_url", "status"],
+    required: ["slug", "title", "short", "description", "image_url"],
+  },
   stories: {
     fields: ["slug", "category", "title", "excerpt", "body", "image_url", "read_time", "status"],
     required: ["slug", "category", "title", "excerpt", "body", "image_url", "read_time"],
@@ -165,10 +237,12 @@ app.get("/api/admin/me", requireAdmin, (request, response) =>
 
 app.get("/api/admin/summary", requireAdmin, async (_request, response) => {
   try {
-    const [[destinations], [experiences], [stories], [inquiries], [newInquiries]] =
+    const [[destinations], [experiences], [tours], [categories], [stories], [inquiries], [newInquiries]] =
       await Promise.all([
         pool.query("SELECT COUNT(*) AS count FROM destinations"),
         pool.query("SELECT COUNT(*) AS count FROM experiences"),
+        pool.query("SELECT COUNT(*) AS count FROM tours"),
+        pool.query("SELECT COUNT(*) AS count FROM categories"),
         pool.query("SELECT COUNT(*) AS count FROM stories"),
         pool.query("SELECT COUNT(*) AS count FROM inquiries"),
         pool.query("SELECT COUNT(*) AS count FROM inquiries WHERE status = 'new'"),
@@ -176,6 +250,8 @@ app.get("/api/admin/summary", requireAdmin, async (_request, response) => {
     response.json({
       destinations: destinations[0].count,
       experiences: experiences[0].count,
+      tours: tours[0].count,
+      categories: categories[0].count,
       stories: stories[0].count,
       inquiries: inquiries[0].count,
       newInquiries: newInquiries[0].count,

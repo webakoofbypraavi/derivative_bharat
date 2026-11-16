@@ -35,7 +35,21 @@ export function normalizeRecord(record) {
   if (!record) return record;
   return Object.fromEntries(
     Object.entries(record).map(([key, value]) => {
-      if (["neighbourhoods", "language", "itinerary"].includes(key)) return [key, jsonValue(value)];
+      if (
+        [
+          "neighbourhoods",
+          "language",
+          "gallery",
+          "highlights",
+          "discover",
+          "itinerary",
+          "included",
+          "excluded",
+          "important",
+          "faqs",
+        ].includes(key)
+      )
+        return [key, jsonValue(value)];
       return [key, value];
     }),
   );

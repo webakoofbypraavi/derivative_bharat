@@ -105,7 +105,7 @@ export function ExperiencesPage({ searchParams }: { searchParams: URLSearchParam
       }),
       sort,
     );
-  }, [query, selectedCategories, selectedDestinations, selectedDurations, selectedLanguages, sort]);
+  }, [query, selectedCategories, selectedDestinations, selectedDurations, selectedLanguages, sort, tours]);
 
   const activeFilterCount =
     selectedCategories.length +

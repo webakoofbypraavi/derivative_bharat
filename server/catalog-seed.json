@@ -1,0 +1,233 @@
+{
+  "destinations": [
+    {
+      "slug": "south-goa-temple-run",
+      "city": "South Goa Temple Run",
+      "state": "Goa",
+      "tagline": "Goa's sacred temples, far from the beaches.",
+      "intro": "Goa's sacred temples, far from the beaches.",
+      "image_url": "/destinations/south-goa/mangeshi-premium.png",
+      "gallery": [
+        "/destinations/south-goa/mangeshi-premium.png",
+        "/destinations/south-goa/Sapthakoteshwar-upscaled.webp"
+      ],
+      "neighbourhoods": [
+        "Nageshi, Mangeshi and Shanta Durga",
+        "Saptakoteshwar",
+        "Bhairoba Goa"
+      ],
+      "best_time": "3 days",
+      "about": "A 3 days heritage route through Nageshi, Mangeshi and Shanta Durga, Saptakoteshwar, Bhairoba Goa.",
+      "food": "Local food traditions can be added to the route during planning.",
+      "architecture": "Begin with two of Goa's best-known temples and their distinctive architecture. Spend the day on the history and story of this ancient Shiva temple. Visit the local shrine, learn about village deity traditions, and wrap up the trip.",
+      "local_stories": "Goa's sacred temples, far from the beaches.",
+      "status": "published"
+    },
+    {
+      "slug": "hampi-heritage-trail",
+      "city": "Hampi Heritage Trail",
+      "state": "Karnataka",
+      "tagline": "Walk through the ruins of an empire.",
+      "intro": "Walk through the ruins of an empire.",
+      "image_url": "/destinations/hampi/Vijayanagara-premium.png",
+      "gallery": [
+        "/destinations/hampi/Vijayanagara-premium.png",
+        "/destinations/hampi/Kishkindha-upscaled.webp",
+        "/destinations/hampi/Jain%20Temple-upscaled.webp",
+        "/destinations/hampi/0318f34cbdaaeaa3db7d70bddb30e561-upscaled.webp",
+        "/destinations/hampi/e02be3f1b23aa1169c0a5effbea43c7f-upscaled.webp"
+      ],
+      "neighbourhoods": [
+        "Vijayanagar",
+        "Kishkindha",
+        "Jain Prabhag",
+        "A slower day"
+      ],
+      "best_time": "3-4 days",
+      "about": "A 3-4 days heritage route through Vijayanagar, Kishkindha, Jain Prabhag, A slower day.",
+      "food": "Local food traditions can be added to the route during planning.",
+      "architecture": "Explore the royal and sacred centres of the old capital. Cross to the legendary landscape linked to the Ramayana. Discover Hampi's lesser-known Jain heritage. Revisit favourite sites, sunrise viewpoints, and photography.",
+      "local_stories": "Walk through the ruins of an empire.",
+      "status": "published"
+    },
+    {
+      "slug": "coastal-karnataka-heritage",
+      "city": "Coastal Karnataka Heritage",
+      "state": "Karnataka coast",
+      "tagline": "Temples, shores, and traditions along the Karnataka coast.",
+      "intro": "Temples, shores, and traditions along the Karnataka coast.",
+      "image_url": "/destinations/coastal-karnataka/Karwar-upscaled.webp",
+      "gallery": [
+        "/destinations/coastal-karnataka/Karwar-upscaled.webp",
+        "/destinations/coastal-karnataka/Gokarna-upscaled.webp",
+        "/destinations/coastal-karnataka/Murudeshwar-upscaled.webp",
+        "/destinations/coastal-karnataka/Udupi-upscaled.webp",
+        "/destinations/coastal-karnataka/Karkala-upscaled.webp",
+        "/destinations/coastal-karnataka/264295f44288512c49cb4a74ff2b5690-upscaled.webp"
+      ],
+      "neighbourhoods": [
+        "Karwar",
+        "Gokarna",
+        "Murudeshwar",
+        "Udupi",
+        "Karkala"
+      ],
+      "best_time": "4-5 days",
+      "about": "A 4-5 days heritage route through Karwar, Gokarna, Murudeshwar, Udupi, Karkala.",
+      "food": "Local food traditions can be added to the route during planning.",
+      "architecture": "Start at the port town and its coastal history. Visit the pilgrimage town and its temples. See the seaside Shiva temple. Explore the temple town and its famous food traditions. Finish with the Jain monuments and heritage of the town.",
+      "local_stories": "Temples, shores, and traditions along the Karnataka coast.",
+      "status": "published"
+    },
+    {
+      "slug": "marathwada-heritage-trail",
+      "city": "Marathwada Heritage Trail",
+      "state": "Maharashtra and Telangana",
+      "tagline": "Deccan history, from sultanates to the Nizams.",
+      "intro": "Deccan history, from sultanates to the Nizams.",
+      "image_url": "/destinations/marathwada/Solapur-upscaled.webp",
+      "gallery": [
+        "/destinations/marathwada/Solapur-upscaled.webp",
+        "/destinations/marathwada/Hyderabad-upscaled.webp",
+        "/destinations/marathwada/Sambhajinagar-upscaled.webp",
+        "/destinations/marathwada/Pune-upscaled.webp"
+      ],
+      "neighbourhoods": [
+        "Solapur",
+        "Latur",
+        "Hyderabad",
+        "Chhatrapati Sambhajinagar, then return to Pune"
+      ],
+      "best_time": "4 days",
+      "about": "A 4 days heritage route through Solapur, Latur, Hyderabad, Chhatrapati Sambhajinagar, then return to Pune.",
+      "food": "Local food traditions can be added to the route during planning.",
+      "architecture": "Begin with the fort and the region's old trade town. Continue through the heart of Marathwada. Spend the day on the monuments and old city of the Nizams. Close with the caves, forts, and tombs of the old Deccan capital.",
+      "local_stories": "Deccan history, from sultanates to the Nizams.",
+      "status": "published"
+    },
+    {
+      "slug": "western-maharashtra-heritage",
+      "city": "Western Maharashtra Heritage",
+      "state": "Maharashtra",
+      "tagline": "The Maratha heartland, town by town.",
+      "intro": "The Maratha heartland, town by town.",
+      "image_url": "/destinations/western-maharashtra/Satara-upscaled.webp",
+      "gallery": [
+        "/destinations/western-maharashtra/Satara-upscaled.webp",
+        "/destinations/western-maharashtra/wai-upscaled.webp",
+        "/destinations/western-maharashtra/Kolhapur-upscaled.webp",
+        "/destinations/western-maharashtra/Narsobachi%20Wadi-upscaled.webp",
+        "/destinations/western-maharashtra/karad-upscaled.webp"
+      ],
+      "neighbourhoods": [
+        "Pune, Wai and Satara",
+        "Kolhapur, Narsobachi Wadi and Karad"
+      ],
+      "best_time": "2 days (please confirm)",
+      "about": "A 2 days (please confirm) heritage route through Pune, Wai and Satara, Kolhapur, Narsobachi Wadi and Karad.",
+      "food": "Local food traditions can be added to the route during planning.",
+      "architecture": "Start with the old city, then travel to the ghats and hill towns of the Krishna valley. Visit the temple city, the riverside shrine, and end at the confluence town of Karad.",
+      "local_stories": "The Maratha heartland, town by town.",
+      "status": "published"
+    },
+    {
+      "slug": "northern-karnataka-heritage",
+      "city": "Northern Karnataka Heritage",
+      "state": "Karnataka",
+      "tagline": "Where Indian temple architecture began.",
+      "intro": "Where Indian temple architecture began.",
+      "image_url": "/destinations/northern-karnataka/Badami-premium.png",
+      "gallery": [
+        "/destinations/northern-karnataka/Badami-premium.png",
+        "/destinations/northern-karnataka/Aihole-premium.png",
+        "/destinations/northern-karnataka/Pattadakal-upscaled.webp"
+      ],
+      "neighbourhoods": [
+        "Badami",
+        "Aihole",
+        "Pattadakal",
+        "A flexible day"
+      ],
+      "best_time": "3-4 days",
+      "about": "A 3-4 days heritage route through Badami, Aihole, Pattadakal, A flexible day.",
+      "food": "Local food traditions can be added to the route during planning.",
+      "architecture": "Explore the cave temples and the old Chalukyan capital. See the early experimental temples, often called the cradle of temple architecture. Finish at the UNESCO-listed temple complex. Revisit sites or explore nearby villages.",
+      "local_stories": "Where Indian temple architecture began.",
+      "status": "published"
+    }
+  ],
+  "categories": [
+    {
+      "slug": "heritage-walks",
+      "title": "Heritage Walks",
+      "short": "Old quarters read street by street.",
+      "description": "Slow, historian-led walks through old quarters where facades, doorways and street names carry the record.",
+      "image_url": "/src/assets/exp-heritage-walk-upscaled.webp",
+      "status": "published"
+    },
+    {
+      "slug": "food-walks",
+      "title": "Food & Culinary Trails",
+      "short": "Kitchens, bazaars and recipes with a past.",
+      "description": "Trails that trace migration, trade and community through what a city cooks and how it eats.",
+      "image_url": "/src/assets/exp-food-upscaled.webp",
+      "status": "published"
+    },
+    {
+      "slug": "architecture-tours",
+      "title": "Architecture Tours",
+      "short": "Stone, brick and the ideas behind them.",
+      "description": "Read buildings as documents — material, climate, patronage and the politics behind a facade.",
+      "image_url": "/src/assets/exp-architecture-upscaled.webp",
+      "status": "published"
+    },
+    {
+      "slug": "cultural-experiences",
+      "title": "Cultural Experiences",
+      "short": "Living traditions, met in person.",
+      "description": "Music, craft, ritual and performance experienced with the practitioners who keep them alive.",
+      "image_url": "/src/assets/exp-cultural-upscaled.webp",
+      "status": "published"
+    },
+    {
+      "slug": "curated-journeys",
+      "title": "Curated Journeys",
+      "short": "Multi-day routes across regions.",
+      "description": "Longer journeys that link cities, landscapes and communities into a single continuous narrative.",
+      "image_url": "/src/assets/exp-curated-upscaled.webp",
+      "status": "published"
+    }
+  ],
+  "stories": [
+    {
+      "slug": "reading-a-facade",
+      "category": "Architecture",
+      "title": "How to Read a Facade Without a Guidebook",
+      "excerpt": "Cornices, brackets and window proportions record more about a building's date and patron than most plaques do.",
+      "body": "Cornices, brackets and window proportions record more about a building's date and patron than most plaques do.",
+      "image_url": "/src/assets/story-architecture-upscaled.webp",
+      "read_time": "6 min read",
+      "status": "published"
+    },
+    {
+      "slug": "kitchens-that-remember",
+      "category": "Food History",
+      "title": "Kitchens That Remember: Migration on a Plate",
+      "excerpt": "Follow a single spice through four Indian cities and you have followed four centuries of trade, displacement and adaptation.",
+      "body": "Follow a single spice through four Indian cities and you have followed four centuries of trade, displacement and adaptation.",
+      "image_url": "/src/assets/story-food-upscaled.webp",
+      "read_time": "8 min read",
+      "status": "published"
+    },
+    {
+      "slug": "the-last-looms",
+      "category": "People & Communities",
+      "title": "The Last Looms of a Weaving Lane",
+      "excerpt": "What happens to a craft neighbourhood when the market moves online and the next generation moves out.",
+      "body": "What happens to a craft neighbourhood when the market moves online and the next generation moves out.",
+      "image_url": "/src/assets/story-people-upscaled.webp",
+      "read_time": "7 min read",
+      "status": "published"
+    }
+  ]
+}

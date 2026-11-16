@@ -51,7 +51,7 @@ export function PlanPage({ searchParams }: { searchParams: URLSearchParams }) {
 
   const selectedTourDetails = useMemo(
     () => tours.find((tour) => tour.slug === selectedTour),
-    [selectedTour],
+    [selectedTour, tours],
   );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {

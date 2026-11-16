@@ -47,7 +47,7 @@ export type ExperienceCategory = {
   image: string;
 };
 
-export const experienceCategories: ExperienceCategory[] = [
+const defaultExperienceCategories: ExperienceCategory[] = [
   {
     slug: "heritage-walks",
     title: "Heritage Walks",
@@ -89,6 +89,8 @@ export const experienceCategories: ExperienceCategory[] = [
     image: expCurated,
   },
 ];
+
+export let experienceCategories: ExperienceCategory[] = defaultExperienceCategories;
 
 export const experienceTypes = experienceCategories.map((c) => c.title);
 
@@ -1199,7 +1201,7 @@ const journeyDefinitions: JourneyDefinition[] = [
   },
 ];
 
-export const destinations: Destination[] = journeyDefinitions.map((journey) => ({
+const defaultDestinations: Destination[] = journeyDefinitions.map((journey) => ({
   slug: journey.slug,
   city: journey.title,
   state: journey.state,
@@ -1214,8 +1216,9 @@ export const destinations: Destination[] = journeyDefinitions.map((journey) => (
   architecture: journey.days.map((day) => day.detail).join(" "),
   localStories: journey.tagline,
 }));
+export let destinations: Destination[] = defaultDestinations;
 
-export const tours: Tour[] = journeyDefinitions.map((journey) => ({
+const defaultTours: Tour[] = journeyDefinitions.map((journey) => ({
   slug: journey.slug,
   title: journey.title,
   destination: journey.title,
@@ -1242,6 +1245,53 @@ export const tours: Tour[] = journeyDefinitions.map((journey) => ({
   faqs: baseFaqs,
   popular: true,
 }));
+
+export let tours: Tour[] = defaultTours;
+
+export function setPublishedTours(records: Record<string, unknown>[]) {
+  tours = records.map((record) => ({
+    slug: String(record.slug ?? ""),
+    title: String(record.title ?? ""),
+    destination: String(record.destination ?? ""),
+    destinationSlug: String(record.destination_slug ?? ""),
+    category: String(record.category ?? ""),
+    categorySlug: String(record.category_slug ?? ""),
+    duration: String(record.duration ?? ""),
+    durationBand: String(record.duration_band ?? "Multi-day") as Tour["durationBand"],
+    price: Number(record.price ?? 0),
+    rating: Number(record.rating ?? 0),
+    reviews: Number(record.reviews ?? 0),
+    language: asArray<string>(record.language),
+    image: String(record.image_url ?? ""),
+    gallery: asArray<string>(record.gallery),
+    summary: String(record.summary ?? ""),
+    overview: String(record.overview ?? ""),
+    highlights: asArray<string>(record.highlights),
+    discover: asArray<string>(record.discover),
+    itinerary: asArray<Tour["itinerary"][number]>(record.itinerary),
+    meetingPoint: String(record.meeting_point ?? ""),
+    included: asArray<string>(record.included),
+    excluded: asArray<string>(record.excluded),
+    important: asArray<string>(record.important),
+    faqs: asArray<Tour["faqs"][number]>(record.faqs),
+    trending: Boolean(record.trending),
+    seasonal: String(record.seasonal ?? "") || undefined,
+    popular: Boolean(record.popular),
+  }));
+}
+
+function asArray<T>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value === "string") {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      return Array.isArray(parsed) ? (parsed as T[]) : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
 
 export const seasonalThemes = [
   {
@@ -1302,7 +1352,7 @@ export const testimonials = [
   },
 ];
 
-export const stories = [
+const defaultStories = [
   {
     slug: "reading-a-facade",
     category: "Architecture",
@@ -1331,6 +1381,57 @@ export const stories = [
     readTime: "7 min read",
   },
 ];
+export let stories = defaultStories;
+
+export function setPublishedCatalog(records: {
+  destinations?: Record<string, unknown>[];
+  categories?: Record<string, unknown>[];
+  stories?: Record<string, unknown>[];
+}) {
+  if (records.destinations) {
+    destinations = records.destinations.map((record) => ({
+      slug: String(record.slug ?? ""),
+      city: String(record.city ?? ""),
+      state: String(record.state ?? ""),
+      tagline: String(record.tagline ?? ""),
+      intro: String(record.intro ?? ""),
+      image: String(record.image_url ?? ""),
+      gallery: asArray<string>(record.gallery),
+      neighbourhoods: asArray<string>(record.neighbourhoods),
+      bestTime: String(record.best_time ?? ""),
+      about: String(record.about ?? ""),
+      food: String(record.food ?? ""),
+      architecture: String(record.architecture ?? ""),
+      localStories: String(record.local_stories ?? ""),
+    }));
+  }
+  if (records.categories) {
+    experienceCategories = records.categories.map((record) => ({
+      slug: String(record.slug ?? ""),
+      title: String(record.title ?? ""),
+      short: String(record.short ?? ""),
+      description: String(record.description ?? ""),
+      image: String(record.image_url ?? "").startsWith("/src/assets/")
+        ? (defaultExperienceCategories.find((category) => category.slug === record.slug)?.image ?? "")
+        : String(record.image_url ?? ""),
+    }));
+  }
+  if (records.stories) {
+    stories = records.stories.map((record) => {
+      const fallback = defaultStories.find((story) => story.slug === record.slug);
+      return {
+        slug: String(record.slug ?? ""),
+        category: String(record.category ?? ""),
+        title: String(record.title ?? ""),
+        excerpt: String(record.excerpt ?? ""),
+        image: String(record.image_url ?? "").startsWith("/src/assets/")
+          ? (fallback?.image ?? "")
+          : String(record.image_url ?? ""),
+        readTime: String(record.read_time ?? ""),
+      };
+    });
+  }
+}
 
 export const stats = [
   { value: "50+", label: "Curated Experiences" },

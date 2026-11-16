@@ -1,0 +1,543 @@
+[
+  {
+    "slug": "south-goa-temple-run",
+    "title": "South Goa Temple Run",
+    "destination": "South Goa Temple Run",
+    "destination_slug": "south-goa-temple-run",
+    "category": "Curated Journeys",
+    "category_slug": "curated-journeys",
+    "duration": "3 days",
+    "duration_band": "Multi-day",
+    "price": 0,
+    "rating": 0,
+    "reviews": 0,
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "image_url": "/destinations/south-goa/mangeshi-premium.png",
+    "gallery": [
+      "/destinations/south-goa/mangeshi-premium.png",
+      "/destinations/south-goa/Sapthakoteshwar-upscaled.webp"
+    ],
+    "summary": "Goa's sacred temples, far from the beaches.",
+    "overview": "Follow a carefully paced route through Nageshi, Mangeshi and Shanta Durga, Saptakoteshwar, Bhairoba Goa.",
+    "highlights": [
+      "Nageshi, Mangeshi and Shanta Durga",
+      "Saptakoteshwar",
+      "Bhairoba Goa"
+    ],
+    "discover": [
+      "Begin with two of Goa's best-known temples and their distinctive architecture.",
+      "Spend the day on the history and story of this ancient Shiva temple.",
+      "Visit the local shrine, learn about village deity traditions, and wrap up the trip."
+    ],
+    "itinerary": [
+      {
+        "time": "Day 1",
+        "title": "Nageshi, Mangeshi and Shanta Durga",
+        "detail": "Begin with two of Goa's best-known temples and their distinctive architecture."
+      },
+      {
+        "time": "Day 2",
+        "title": "Saptakoteshwar",
+        "detail": "Spend the day on the history and story of this ancient Shiva temple."
+      },
+      {
+        "time": "Day 3",
+        "title": "Bhairoba Goa",
+        "detail": "Visit the local shrine, learn about village deity traditions, and wrap up the trip."
+      }
+    ],
+    "meeting_point": "Meeting points, transfers and departure details are confirmed after enquiry.",
+    "included": [
+      "Route planning",
+      "Heritage itinerary",
+      "Local context notes"
+    ],
+    "excluded": [
+      "Accommodation",
+      "Meals",
+      "Travel between locations"
+    ],
+    "important": [
+      "Opening hours and access can change",
+      "Please confirm dates before booking"
+    ],
+    "faqs": [
+      {
+        "q": "How large are the groups?",
+        "a": "Most experiences run with 6 to 12 travellers so that everyone can hear the guide and ask questions. Private departures are available on request."
+      },
+      {
+        "q": "Is the route accessible?",
+        "a": "Routes vary. Several walks use uneven lanes and steps. Tell us your requirements when you enquire and we will suggest a suitable route or adapt the walk."
+      },
+      {
+        "q": "What happens if it rains?",
+        "a": "Walks run in light rain with covered stops built in. If conditions are unsafe we reschedule or refund in full."
+      }
+    ],
+    "trending": false,
+    "seasonal": null,
+    "popular": true,
+    "status": "published"
+  },
+  {
+    "slug": "hampi-heritage-trail",
+    "title": "Hampi Heritage Trail",
+    "destination": "Hampi Heritage Trail",
+    "destination_slug": "hampi-heritage-trail",
+    "category": "Curated Journeys",
+    "category_slug": "curated-journeys",
+    "duration": "3-4 days",
+    "duration_band": "Multi-day",
+    "price": 0,
+    "rating": 0,
+    "reviews": 0,
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "image_url": "/destinations/hampi/Vijayanagara-premium.png",
+    "gallery": [
+      "/destinations/hampi/Vijayanagara-premium.png",
+      "/destinations/hampi/Kishkindha-upscaled.webp",
+      "/destinations/hampi/Jain%20Temple-upscaled.webp",
+      "/destinations/hampi/0318f34cbdaaeaa3db7d70bddb30e561-upscaled.webp"
+    ],
+    "summary": "Walk through the ruins of an empire.",
+    "overview": "Follow a carefully paced route through Vijayanagar, Kishkindha, Jain Prabhag, A slower day.",
+    "highlights": [
+      "Vijayanagar",
+      "Kishkindha",
+      "Jain Prabhag",
+      "A slower day"
+    ],
+    "discover": [
+      "Explore the royal and sacred centres of the old capital.",
+      "Cross to the legendary landscape linked to the Ramayana.",
+      "Discover Hampi's lesser-known Jain heritage.",
+      "Revisit favourite sites, sunrise viewpoints, and photography."
+    ],
+    "itinerary": [
+      {
+        "time": "Day 1",
+        "title": "Vijayanagar",
+        "detail": "Explore the royal and sacred centres of the old capital."
+      },
+      {
+        "time": "Day 2",
+        "title": "Kishkindha",
+        "detail": "Cross to the legendary landscape linked to the Ramayana."
+      },
+      {
+        "time": "Day 3",
+        "title": "Jain Prabhag",
+        "detail": "Discover Hampi's lesser-known Jain heritage."
+      },
+      {
+        "time": "Day 4 (optional)",
+        "title": "A slower day",
+        "detail": "Revisit favourite sites, sunrise viewpoints, and photography."
+      }
+    ],
+    "meeting_point": "Meeting points, transfers and departure details are confirmed after enquiry.",
+    "included": [
+      "Route planning",
+      "Heritage itinerary",
+      "Local context notes"
+    ],
+    "excluded": [
+      "Accommodation",
+      "Meals",
+      "Travel between locations"
+    ],
+    "important": [
+      "Opening hours and access can change",
+      "Please confirm dates before booking"
+    ],
+    "faqs": [
+      {
+        "q": "How large are the groups?",
+        "a": "Most experiences run with 6 to 12 travellers so that everyone can hear the guide and ask questions. Private departures are available on request."
+      },
+      {
+        "q": "Is the route accessible?",
+        "a": "Routes vary. Several walks use uneven lanes and steps. Tell us your requirements when you enquire and we will suggest a suitable route or adapt the walk."
+      },
+      {
+        "q": "What happens if it rains?",
+        "a": "Walks run in light rain with covered stops built in. If conditions are unsafe we reschedule or refund in full."
+      }
+    ],
+    "trending": false,
+    "seasonal": null,
+    "popular": true,
+    "status": "published"
+  },
+  {
+    "slug": "coastal-karnataka-heritage",
+    "title": "Coastal Karnataka Heritage",
+    "destination": "Coastal Karnataka Heritage",
+    "destination_slug": "coastal-karnataka-heritage",
+    "category": "Curated Journeys",
+    "category_slug": "curated-journeys",
+    "duration": "4-5 days",
+    "duration_band": "Multi-day",
+    "price": 0,
+    "rating": 0,
+    "reviews": 0,
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "image_url": "/destinations/coastal-karnataka/Karwar-upscaled.webp",
+    "gallery": [
+      "/destinations/coastal-karnataka/Karwar-upscaled.webp",
+      "/destinations/coastal-karnataka/Gokarna-upscaled.webp",
+      "/destinations/coastal-karnataka/Murudeshwar-upscaled.webp",
+      "/destinations/coastal-karnataka/Udupi-upscaled.webp"
+    ],
+    "summary": "Temples, shores, and traditions along the Karnataka coast.",
+    "overview": "Follow a carefully paced route through Karwar, Gokarna, Murudeshwar, Udupi, Karkala.",
+    "highlights": [
+      "Karwar",
+      "Gokarna",
+      "Murudeshwar",
+      "Udupi",
+      "Karkala"
+    ],
+    "discover": [
+      "Start at the port town and its coastal history.",
+      "Visit the pilgrimage town and its temples.",
+      "See the seaside Shiva temple.",
+      "Explore the temple town and its famous food traditions.",
+      "Finish with the Jain monuments and heritage of the town."
+    ],
+    "itinerary": [
+      {
+        "time": "Day 1",
+        "title": "Karwar",
+        "detail": "Start at the port town and its coastal history."
+      },
+      {
+        "time": "Day 2",
+        "title": "Gokarna",
+        "detail": "Visit the pilgrimage town and its temples."
+      },
+      {
+        "time": "Day 3",
+        "title": "Murudeshwar",
+        "detail": "See the seaside Shiva temple."
+      },
+      {
+        "time": "Day 4",
+        "title": "Udupi",
+        "detail": "Explore the temple town and its famous food traditions."
+      },
+      {
+        "time": "Day 5",
+        "title": "Karkala",
+        "detail": "Finish with the Jain monuments and heritage of the town."
+      }
+    ],
+    "meeting_point": "Meeting points, transfers and departure details are confirmed after enquiry.",
+    "included": [
+      "Route planning",
+      "Heritage itinerary",
+      "Local context notes"
+    ],
+    "excluded": [
+      "Accommodation",
+      "Meals",
+      "Travel between locations"
+    ],
+    "important": [
+      "Opening hours and access can change",
+      "Please confirm dates before booking"
+    ],
+    "faqs": [
+      {
+        "q": "How large are the groups?",
+        "a": "Most experiences run with 6 to 12 travellers so that everyone can hear the guide and ask questions. Private departures are available on request."
+      },
+      {
+        "q": "Is the route accessible?",
+        "a": "Routes vary. Several walks use uneven lanes and steps. Tell us your requirements when you enquire and we will suggest a suitable route or adapt the walk."
+      },
+      {
+        "q": "What happens if it rains?",
+        "a": "Walks run in light rain with covered stops built in. If conditions are unsafe we reschedule or refund in full."
+      }
+    ],
+    "trending": false,
+    "seasonal": null,
+    "popular": true,
+    "status": "published"
+  },
+  {
+    "slug": "marathwada-heritage-trail",
+    "title": "Marathwada Heritage Trail",
+    "destination": "Marathwada Heritage Trail",
+    "destination_slug": "marathwada-heritage-trail",
+    "category": "Curated Journeys",
+    "category_slug": "curated-journeys",
+    "duration": "4 days",
+    "duration_band": "Multi-day",
+    "price": 0,
+    "rating": 0,
+    "reviews": 0,
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "image_url": "/destinations/marathwada/Solapur-upscaled.webp",
+    "gallery": [
+      "/destinations/marathwada/Solapur-upscaled.webp",
+      "/destinations/marathwada/Hyderabad-upscaled.webp",
+      "/destinations/marathwada/Sambhajinagar-upscaled.webp",
+      "/destinations/marathwada/Pune-upscaled.webp"
+    ],
+    "summary": "Deccan history, from sultanates to the Nizams.",
+    "overview": "Follow a carefully paced route through Solapur, Latur, Hyderabad, Chhatrapati Sambhajinagar, then return to Pune.",
+    "highlights": [
+      "Solapur",
+      "Latur",
+      "Hyderabad",
+      "Chhatrapati Sambhajinagar, then return to Pune"
+    ],
+    "discover": [
+      "Begin with the fort and the region's old trade town.",
+      "Continue through the heart of Marathwada.",
+      "Spend the day on the monuments and old city of the Nizams.",
+      "Close with the caves, forts, and tombs of the old Deccan capital."
+    ],
+    "itinerary": [
+      {
+        "time": "Day 1",
+        "title": "Solapur",
+        "detail": "Begin with the fort and the region's old trade town."
+      },
+      {
+        "time": "Day 2",
+        "title": "Latur",
+        "detail": "Continue through the heart of Marathwada."
+      },
+      {
+        "time": "Day 3",
+        "title": "Hyderabad",
+        "detail": "Spend the day on the monuments and old city of the Nizams."
+      },
+      {
+        "time": "Day 4",
+        "title": "Chhatrapati Sambhajinagar, then return to Pune",
+        "detail": "Close with the caves, forts, and tombs of the old Deccan capital."
+      }
+    ],
+    "meeting_point": "Meeting points, transfers and departure details are confirmed after enquiry.",
+    "included": [
+      "Route planning",
+      "Heritage itinerary",
+      "Local context notes"
+    ],
+    "excluded": [
+      "Accommodation",
+      "Meals",
+      "Travel between locations"
+    ],
+    "important": [
+      "Opening hours and access can change",
+      "Please confirm dates before booking"
+    ],
+    "faqs": [
+      {
+        "q": "How large are the groups?",
+        "a": "Most experiences run with 6 to 12 travellers so that everyone can hear the guide and ask questions. Private departures are available on request."
+      },
+      {
+        "q": "Is the route accessible?",
+        "a": "Routes vary. Several walks use uneven lanes and steps. Tell us your requirements when you enquire and we will suggest a suitable route or adapt the walk."
+      },
+      {
+        "q": "What happens if it rains?",
+        "a": "Walks run in light rain with covered stops built in. If conditions are unsafe we reschedule or refund in full."
+      }
+    ],
+    "trending": false,
+    "seasonal": null,
+    "popular": true,
+    "status": "published"
+  },
+  {
+    "slug": "western-maharashtra-heritage",
+    "title": "Western Maharashtra Heritage",
+    "destination": "Western Maharashtra Heritage",
+    "destination_slug": "western-maharashtra-heritage",
+    "category": "Curated Journeys",
+    "category_slug": "curated-journeys",
+    "duration": "2 days (please confirm)",
+    "duration_band": "Multi-day",
+    "price": 0,
+    "rating": 0,
+    "reviews": 0,
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "image_url": "/destinations/western-maharashtra/Satara-upscaled.webp",
+    "gallery": [
+      "/destinations/western-maharashtra/Satara-upscaled.webp",
+      "/destinations/western-maharashtra/wai-upscaled.webp",
+      "/destinations/western-maharashtra/Kolhapur-upscaled.webp",
+      "/destinations/western-maharashtra/Narsobachi%20Wadi-upscaled.webp"
+    ],
+    "summary": "The Maratha heartland, town by town.",
+    "overview": "Follow a carefully paced route through Pune, Wai and Satara, Kolhapur, Narsobachi Wadi and Karad.",
+    "highlights": [
+      "Pune, Wai and Satara",
+      "Kolhapur, Narsobachi Wadi and Karad"
+    ],
+    "discover": [
+      "Start with the old city, then travel to the ghats and hill towns of the Krishna valley.",
+      "Visit the temple city, the riverside shrine, and end at the confluence town of Karad."
+    ],
+    "itinerary": [
+      {
+        "time": "Day 1",
+        "title": "Pune, Wai and Satara",
+        "detail": "Start with the old city, then travel to the ghats and hill towns of the Krishna valley."
+      },
+      {
+        "time": "Day 2",
+        "title": "Kolhapur, Narsobachi Wadi and Karad",
+        "detail": "Visit the temple city, the riverside shrine, and end at the confluence town of Karad."
+      }
+    ],
+    "meeting_point": "Meeting points, transfers and departure details are confirmed after enquiry.",
+    "included": [
+      "Route planning",
+      "Heritage itinerary",
+      "Local context notes"
+    ],
+    "excluded": [
+      "Accommodation",
+      "Meals",
+      "Travel between locations"
+    ],
+    "important": [
+      "Opening hours and access can change",
+      "Please confirm dates before booking"
+    ],
+    "faqs": [
+      {
+        "q": "How large are the groups?",
+        "a": "Most experiences run with 6 to 12 travellers so that everyone can hear the guide and ask questions. Private departures are available on request."
+      },
+      {
+        "q": "Is the route accessible?",
+        "a": "Routes vary. Several walks use uneven lanes and steps. Tell us your requirements when you enquire and we will suggest a suitable route or adapt the walk."
+      },
+      {
+        "q": "What happens if it rains?",
+        "a": "Walks run in light rain with covered stops built in. If conditions are unsafe we reschedule or refund in full."
+      }
+    ],
+    "trending": false,
+    "seasonal": null,
+    "popular": true,
+    "status": "published"
+  },
+  {
+    "slug": "northern-karnataka-heritage",
+    "title": "Northern Karnataka Heritage",
+    "destination": "Northern Karnataka Heritage",
+    "destination_slug": "northern-karnataka-heritage",
+    "category": "Curated Journeys",
+    "category_slug": "curated-journeys",
+    "duration": "3-4 days",
+    "duration_band": "Multi-day",
+    "price": 0,
+    "rating": 0,
+    "reviews": 0,
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "image_url": "/destinations/northern-karnataka/Badami-premium.png",
+    "gallery": [
+      "/destinations/northern-karnataka/Badami-premium.png",
+      "/destinations/northern-karnataka/Aihole-premium.png",
+      "/destinations/northern-karnataka/Pattadakal-upscaled.webp"
+    ],
+    "summary": "Where Indian temple architecture began.",
+    "overview": "Follow a carefully paced route through Badami, Aihole, Pattadakal, A flexible day.",
+    "highlights": [
+      "Badami",
+      "Aihole",
+      "Pattadakal",
+      "A flexible day"
+    ],
+    "discover": [
+      "Explore the cave temples and the old Chalukyan capital.",
+      "See the early experimental temples, often called the cradle of temple architecture.",
+      "Finish at the UNESCO-listed temple complex.",
+      "Revisit sites or explore nearby villages."
+    ],
+    "itinerary": [
+      {
+        "time": "Day 1",
+        "title": "Badami",
+        "detail": "Explore the cave temples and the old Chalukyan capital."
+      },
+      {
+        "time": "Day 2",
+        "title": "Aihole",
+        "detail": "See the early experimental temples, often called the cradle of temple architecture."
+      },
+      {
+        "time": "Day 3",
+        "title": "Pattadakal",
+        "detail": "Finish at the UNESCO-listed temple complex."
+      },
+      {
+        "time": "Day 4 (optional)",
+        "title": "A flexible day",
+        "detail": "Revisit sites or explore nearby villages."
+      }
+    ],
+    "meeting_point": "Meeting points, transfers and departure details are confirmed after enquiry.",
+    "included": [
+      "Route planning",
+      "Heritage itinerary",
+      "Local context notes"
+    ],
+    "excluded": [
+      "Accommodation",
+      "Meals",
+      "Travel between locations"
+    ],
+    "important": [
+      "Opening hours and access can change",
+      "Please confirm dates before booking"
+    ],
+    "faqs": [
+      {
+        "q": "How large are the groups?",
+        "a": "Most experiences run with 6 to 12 travellers so that everyone can hear the guide and ask questions. Private departures are available on request."
+      },
+      {
+        "q": "Is the route accessible?",
+        "a": "Routes vary. Several walks use uneven lanes and steps. Tell us your requirements when you enquire and we will suggest a suitable route or adapt the walk."
+      },
+      {
+        "q": "What happens if it rains?",
+        "a": "Walks run in light rain with covered stops built in. If conditions are unsafe we reschedule or refund in full."
+      }
+    ],
+    "trending": false,
+    "seasonal": null,
+    "popular": true,
+    "status": "published"
+  }
+]

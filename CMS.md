@@ -16,9 +16,11 @@ Open `http://localhost:8080/admin` to sign in. The setup command creates the dat
 
 ## Content managed
 
-The studio includes dashboard counts, destinations, experiences, stories, and inquiry status tracking. Records support `draft` and `published` states. Draft records remain available in the admin API but are excluded from the public content endpoints.
+The studio includes dashboard counts, destinations, experience categories, tours, stories, and inquiry status tracking. Tour forms cover pricing, duration, languages, images, highlights, itinerary, inclusions, travel notes, FAQs, and featured placement. Records support `draft` and `published` states. Draft records remain available in the admin API but are excluded from the public content endpoints.
 
-The API runs on port `8787` by default. The Vite development server proxies `/api` to it. Useful endpoints include `GET /api/health`, `POST /api/auth/login`, authenticated CRUD under `/api/admin/*`, and published content under `/api/content/*`.
+The first `npm run db:setup` seeds the site's existing six tours, six destinations, five experience categories, and three stories into MySQL. It uses insert-if-missing behavior, so later setup runs do not overwrite edits made in the CMS. Published tours, destinations, categories, and stories are loaded from the database by the public site.
+
+The API runs on port `8787` by default. The Vite development server proxies `/api` to it. Useful endpoints include `GET /api/health`, `POST /api/auth/login`, authenticated CRUD under `/api/admin/*`, and published content under `/api/content/*` (`tours`, `destinations`, `categories`, and `stories`).
 
 ## Google Sheets enquiries
 

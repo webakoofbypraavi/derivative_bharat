@@ -1,10 +1,11 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { SiteLayout } from "@/components/site/layout";
 import { Button } from "@/components/ui/button";
 import { applyHead, type HeadConfig } from "@/lib/head";
 import { Link, useCurrentLocation, useSearchParams } from "@/lib/simple-router";
 import { pageMeta } from "@/lib/seo";
+import { setPublishedCatalog, setPublishedTours } from "@/data/site";
 import { AboutPage, getAboutHead } from "@/routes/about";
 import { ContactPage, getContactHead } from "@/routes/contact";
 import { AdminPage } from "@/routes/admin";
@@ -22,6 +23,7 @@ type RouteMatch = {
 };
 
 export function App() {
+  const [, setContentRevision] = useState(0);
   const location = useCurrentLocation();
   const searchParams = useSearchParams();
   const route = matchRoute(location.pathname, searchParams);
@@ -29,6 +31,40 @@ export function App() {
   useEffect(() => {
     applyHead(route.head);
   }, [route.head]);
+
+  useEffect(() => {
+    let active = true;
+    async function refreshCatalog() {
+      try {
+        const resources = ["tours", "destinations", "categories", "stories"] as const;
+        const responses = await Promise.all(
+          resources.map(async (resource) => {
+            const response = await fetch(`/api/content/${resource}`);
+            return response.ok ? (await response.json()) : null;
+          }),
+        );
+        if (active) {
+          const [tourRecords, destinationRecords, categoryRecords, storyRecords] = responses;
+          if (Array.isArray(tourRecords)) setPublishedTours(tourRecords);
+          setPublishedCatalog({
+            ...(Array.isArray(destinationRecords) ? { destinations: destinationRecords } : {}),
+            ...(Array.isArray(categoryRecords) ? { categories: categoryRecords } : {}),
+            ...(Array.isArray(storyRecords) ? { stories: storyRecords } : {}),
+          });
+          setContentRevision((revision) => revision + 1);
+        }
+      } catch {
+        // Keep the bundled catalog available when the CMS API is offline.
+      }
+    }
+    const handleContentUpdate = () => void refreshCatalog();
+    void refreshCatalog();
+    window.addEventListener("site:content-updated", handleContentUpdate);
+    return () => {
+      active = false;
+      window.removeEventListener("site:content-updated", handleContentUpdate);
+    };
+  }, []);
 
   return location.pathname === "/admin" ? (
     <>{route.element}</>
