@@ -24,7 +24,19 @@ The API runs on port `8787` by default. The Vite development server proxies `/ap
 
 ## Google Sheets enquiries
 
-Booking enquiries submitted from `/plan` are saved to MySQL and appended to the configured Google Sheet. The destination selects the tab: the default setup maps `Hampi` to `Sheet1` and `Delhi` to `Sheet2`.
+Booking enquiries submitted from `/plan` are saved to MySQL and appended to the configured Google Sheet. The destination selects the tab. The default mapping covers all six tours and retains the Hampi and Delhi aliases:
+
+| Tour or destination | Spreadsheet tab |
+| --- | --- |
+| Hampi Heritage Trail / Hampi | Sheet1 |
+| Delhi | Sheet2 |
+| South Goa Temple Run | Sheet3 |
+| Coastal Karnataka Heritage | Sheet4 |
+| Marathwada Heritage Trail | Sheet5 |
+| Western Maharashtra Heritage | Sheet6 |
+| Northern Karnataka Heritage | Sheet7 |
+
+Create these tabs in the spreadsheet with the exact names above, or change the values in `GOOGLE_SHEETS_TAB_MAP` to match your existing tab names. Headers are added automatically to an empty tab. Unmapped destinations use `GOOGLE_SHEETS_DEFAULT_TAB`.
 
 1. In Google Cloud, enable the Google Sheets API and create a service account.
 2. Share the spreadsheet with the service account email as an Editor.

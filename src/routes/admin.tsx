@@ -80,9 +80,9 @@ const resourceConfig: Record<ResourceName, { label: string; icon: typeof Map; fi
       { key: "destination_slug", label: "Destination slug" },
       { key: "destination", label: "Destination" },
       { key: "duration", label: "Duration" },
-      { key: "price", label: "Price" },
-      { key: "rating", label: "Rating" },
-      { key: "reviews", label: "Reviews" },
+      { key: "price", label: "Price", type: "number" },
+      { key: "rating", label: "Rating", type: "number" },
+      { key: "reviews", label: "Reviews", type: "number" },
       { key: "image_url", label: "Image URL" },
       { key: "summary", label: "Summary", type: "textarea" },
       {
@@ -274,6 +274,7 @@ export function AdminPage() {
 
   useEffect(() => {
     if (!token || !user) return;
+    let cancelled = false;
     setLoading(true);
     setError("");
     const request =
@@ -284,12 +285,20 @@ export function AdminPage() {
           : api(`/admin/${section}`, token);
     request
       .then((payload) => {
+        if (cancelled) return;
         if (section === "overview") setSummary(payload);
         else if (section === "inquiries") setInquiries(payload);
         else setRecords(payload);
       })
-      .catch((reason: Error) => setError(reason.message))
-      .finally(() => setLoading(false));
+      .catch((reason: Error) => {
+        if (!cancelled) setError(reason.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [section, token, user]);
 
   if (!token || !user)
@@ -396,10 +405,22 @@ export function AdminPage() {
           <Inquiries
             inquiries={inquiries}
             token={token}
+            onError={setError}
             onUpdate={(updated) => {
               setInquiries((items) =>
                 items.map((item) => (item.id === updated.id ? updated : item)),
               );
+              setSummary((current) =>
+                current
+                  ? {
+                      ...current,
+                      newInquiries: inquiries.filter(
+                        (item) => (item.id === updated.id ? updated.status : item.status) === "new",
+                      ).length,
+                    }
+                  : current,
+              );
+              setError("");
               setMessage("Inquiry status updated.");
             }}
           />
@@ -417,13 +438,9 @@ export function AdminPage() {
                 await api(`/admin/${section}/${record.id}`, token, { method: "DELETE" });
                 setRecords((items) => items.filter((item) => item.id !== record.id));
                 window.dispatchEvent(new Event("site:content-updated"));
-                if (section !== "overview" && section !== "inquiries") {
-                  setSummary((current) =>
-                    current
-                      ? { ...current, [section]: Math.max(0, current[section] - 1) }
-                      : current,
-                  );
-                }
+                setSummary((current) =>
+                  current ? { ...current, [section]: Math.max(0, current[section] - 1) } : current,
+                );
                 setMessage("Record deleted.");
               } catch (reason) {
                 setError((reason as Error).message);
@@ -735,7 +752,7 @@ function ResourceTable({
                       ? "Destination · Category"
                       : resource === "categories"
                         ? "Short description"
-                      : "Destination"}
+                        : "Destination"}
               </th>
               <th>Updated</th>
               <th>Status</th>
@@ -802,10 +819,12 @@ function Inquiries({
   inquiries,
   token,
   onUpdate,
+  onError,
 }: {
   inquiries: AdminRecord[];
   token: string;
   onUpdate: (record: AdminRecord) => void;
+  onError: (message: string) => void;
 }) {
   return (
     <div className="admin-resource">
@@ -855,8 +874,8 @@ function Inquiries({
                               body: JSON.stringify({ status: event.target.value }),
                             });
                             onUpdate(updated);
-                          } catch {
-                            /* parent surfaces the next refresh */
+                          } catch (reason) {
+                            onError((reason as Error).message);
                           }
                         }}
                       >
@@ -908,16 +927,16 @@ function Editor({
             ? Array.isArray(record[field.key])
               ? record[field.key].join("\n")
               : ""
-          : field.type === "json"
-            ? JSON.stringify(record[field.key] ?? [], null, 2)
-            : String(
-                record[field.key] ??
-                  (field.key === "status"
-                    ? "draft"
-                    : field.key === "duration_band"
-                      ? "Multi-day"
-                      : ""),
-              ),
+            : field.type === "json"
+              ? JSON.stringify(record[field.key] ?? [], null, 2)
+              : String(
+                  record[field.key] ??
+                    (field.key === "status"
+                      ? "draft"
+                      : field.key === "duration_band"
+                        ? "Multi-day"
+                        : ""),
+                ),
       ]),
     ),
   );
@@ -973,7 +992,7 @@ function Editor({
             <span className="admin-kicker">{record.id ? "Edit record" : "New record"}</span>
             <h2 id="editor-title">
               {record.id
-              ? `Update ${resource === "stories" ? "story" : resource === "categories" ? "category" : resourceConfig[resource].label.slice(0, -1).toLowerCase()}`
+                ? `Update ${resource === "stories" ? "story" : resource === "categories" ? "category" : resourceConfig[resource].label.slice(0, -1).toLowerCase()}`
                 : `Add ${resource === "stories" ? "story" : resource === "categories" ? "category" : resourceConfig[resource].label.slice(0, -1).toLowerCase()}`}
             </h2>
           </div>
@@ -1016,7 +1035,9 @@ function Editor({
                         </option>
                       ))}
                     </select>
-                  ) : field.type === "textarea" || field.type === "json" || field.type === "list" ? (
+                  ) : field.type === "textarea" ||
+                    field.type === "json" ||
+                    field.type === "list" ? (
                     <textarea
                       placeholder={field.placeholder}
                       required={field.required}
@@ -1027,7 +1048,10 @@ function Editor({
                   ) : (
                     <input
                       placeholder={field.placeholder}
-                      required={field.required || (!record.id && ["slug", "title", "city"].includes(field.key))}
+                      required={
+                        field.required ||
+                        (!record.id && ["slug", "title", "city"].includes(field.key))
+                      }
                       type={field.type === "number" ? "number" : "text"}
                       step={field.key === "price" || field.key === "rating" ? "0.01" : undefined}
                       value={String(form[field.key] ?? "")}

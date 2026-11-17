@@ -54,7 +54,10 @@ function getSheetsClient() {
 }
 
 function getSheetName(destination) {
-  const tabMap = parseTabMap(process.env.GOOGLE_SHEETS_TAB_MAP || "hampi=Sheet1,delhi=Sheet2");
+  const tabMap = parseTabMap(
+    process.env.GOOGLE_SHEETS_TAB_MAP ||
+      "hampi=Sheet1,delhi=Sheet2,hampi-heritage-trail=Sheet1,south-goa-temple-run=Sheet3,coastal-karnataka-heritage=Sheet4,marathwada-heritage-trail=Sheet5,western-maharashtra-heritage=Sheet6,northern-karnataka-heritage=Sheet7",
+  );
   return tabMap.get(normalizeKey(destination)) || process.env.GOOGLE_SHEETS_DEFAULT_TAB || "Sheet1";
 }
 

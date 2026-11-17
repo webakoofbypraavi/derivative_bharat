@@ -32,7 +32,7 @@ function requireAdmin(request, response, next) {
   }
 }
 
-function parseBody(body, fields) {
+function parseBody(body, fields, defaults = true) {
   const parsed = Object.fromEntries(
     fields
       .filter((field) => body[field] !== undefined)
@@ -66,9 +66,9 @@ function parseBody(body, fields) {
     "important",
     "faqs",
   ]) {
-    if (fields.includes(field) && parsed[field] === undefined) parsed[field] = "[]";
+    if (defaults && fields.includes(field) && parsed[field] === undefined) parsed[field] = "[]";
   }
-  if (fields.includes("status") && parsed.status === undefined) parsed.status = "draft";
+  if (defaults && fields.includes("status") && parsed.status === undefined) parsed.status = "draft";
   return parsed;
 }
 
@@ -241,16 +241,23 @@ app.get("/api/admin/me", requireAdmin, (request, response) =>
 
 app.get("/api/admin/summary", requireAdmin, async (_request, response) => {
   try {
-    const [[destinations], [experiences], [tours], [categories], [stories], [inquiries], [newInquiries]] =
-      await Promise.all([
-        pool.query("SELECT COUNT(*) AS count FROM destinations"),
-        pool.query("SELECT COUNT(*) AS count FROM experiences"),
-        pool.query("SELECT COUNT(*) AS count FROM tours"),
-        pool.query("SELECT COUNT(*) AS count FROM categories"),
-        pool.query("SELECT COUNT(*) AS count FROM stories"),
-        pool.query("SELECT COUNT(*) AS count FROM inquiries"),
-        pool.query("SELECT COUNT(*) AS count FROM inquiries WHERE status = 'new'"),
-      ]);
+    const [
+      [destinations],
+      [experiences],
+      [tours],
+      [categories],
+      [stories],
+      [inquiries],
+      [newInquiries],
+    ] = await Promise.all([
+      pool.query("SELECT COUNT(*) AS count FROM destinations"),
+      pool.query("SELECT COUNT(*) AS count FROM experiences"),
+      pool.query("SELECT COUNT(*) AS count FROM tours"),
+      pool.query("SELECT COUNT(*) AS count FROM categories"),
+      pool.query("SELECT COUNT(*) AS count FROM stories"),
+      pool.query("SELECT COUNT(*) AS count FROM inquiries"),
+      pool.query("SELECT COUNT(*) AS count FROM inquiries WHERE status = 'new'"),
+    ]);
     response.json({
       destinations: destinations[0].count,
       experiences: experiences[0].count,
@@ -314,7 +321,7 @@ for (const [resource, config] of Object.entries(resourceConfig)) {
   });
 
   app.put(`/api/admin/${resource}/:id`, requireAdmin, async (request, response) => {
-    const body = parseBody(request.body || {}, config.fields);
+    const body = parseBody(request.body || {}, config.fields, false);
     const columns = Object.keys(body);
     if (!columns.length) return sendError(response, 400, "No fields to update.");
     try {

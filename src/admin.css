@@ -802,8 +802,12 @@
     padding: 0 4px 15px;
   }
   .admin-side-label,
-  .admin-sidebar-bottom {
+  .admin-health {
     display: none;
+  }
+  .admin-sidebar-bottom {
+    margin-top: 10px;
+    padding-top: 6px;
   }
   .admin-nav {
     display: flex;

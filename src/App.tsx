@@ -22,6 +22,19 @@ type RouteMatch = {
   head: HeadConfig;
 };
 
+function experienceDurationBand(duration: unknown) {
+  const value = String(duration ?? "").toLowerCase();
+  const amounts = value.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+  const maximum = Math.max(0, ...amounts);
+  if (/multi|overnight/.test(value) || (/days?/.test(value) && maximum > 1)) return "Multi-day";
+  if (/day/.test(value)) return "Full day";
+  if (/min/.test(value) && !/hour|hr/.test(value)) return "Under 3 hours";
+  if (/hour|hr/.test(value) && maximum > 0) {
+    return maximum < 3 ? "Under 3 hours" : maximum <= 5 ? "3–5 hours" : "Full day";
+  }
+  return "Multi-day";
+}
+
 export function App() {
   const [, setContentRevision] = useState(0);
   const location = useCurrentLocation();
@@ -36,16 +49,41 @@ export function App() {
     let active = true;
     async function refreshCatalog() {
       try {
-        const resources = ["tours", "destinations", "categories", "stories"] as const;
+        const resources = [
+          "tours",
+          "destinations",
+          "categories",
+          "stories",
+          "experiences",
+        ] as const;
         const responses = await Promise.all(
           resources.map(async (resource) => {
             const response = await fetch(`/api/content/${resource}`);
-            return response.ok ? (await response.json()) : null;
+            return response.ok ? await response.json() : null;
           }),
         );
         if (active) {
-          const [tourRecords, destinationRecords, categoryRecords, storyRecords] = responses;
-          if (Array.isArray(tourRecords)) setPublishedTours(tourRecords);
+          const [
+            tourRecords,
+            destinationRecords,
+            categoryRecords,
+            storyRecords,
+            experienceRecords,
+          ] = responses;
+          if (Array.isArray(tourRecords)) {
+            const tourSlugs = new Set(tourRecords.map((record) => record.slug));
+            const experiences = Array.isArray(experienceRecords)
+              ? experienceRecords
+                  .filter((record) => !tourSlugs.has(record.slug))
+                  .map((record) => ({
+                    ...record,
+                    overview: record.summary,
+                    gallery: record.image_url ? [record.image_url] : [],
+                    duration_band: experienceDurationBand(record.duration),
+                  }))
+              : [];
+            setPublishedTours([...tourRecords, ...experiences]);
+          }
           setPublishedCatalog({
             ...(Array.isArray(destinationRecords) ? { destinations: destinationRecords } : {}),
             ...(Array.isArray(categoryRecords) ? { categories: categoryRecords } : {}),
