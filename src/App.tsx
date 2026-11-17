@@ -66,7 +66,7 @@ export function App() {
     };
   }, []);
 
-  return location.pathname === "/admin" ? (
+  return location.pathname === "/admin" || location.pathname === "/admin/login" ? (
     <>{route.element}</>
   ) : (
     <SiteLayout>{route.element}</SiteLayout>
@@ -76,14 +76,14 @@ export function App() {
 function matchRoute(pathname: string, searchParams: URLSearchParams): RouteMatch {
   const parts = pathname.split("/").filter(Boolean).map(decodeURIComponent);
 
-  if (pathname === "/admin") {
+  if (pathname === "/admin" || pathname === "/admin/login") {
     return {
       element: <AdminPage key="admin" />,
       head: {
         meta: pageMeta({
           title: "Admin CMS | Derivative Bharat",
           description: "Derivative Bharat content management studio.",
-          path: "/admin",
+          path: pathname,
         }),
       },
     };
