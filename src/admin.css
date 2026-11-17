@@ -676,11 +676,13 @@
 }
 .admin-login {
   display: grid;
-  grid-template-columns: minmax(340px, 510px) minmax(300px, 1fr);
+  grid-template-columns: minmax(300px, 1fr) minmax(340px, 510px);
   min-height: 100vh;
   background: #f6f1ea;
 }
 .admin-login-card {
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -752,6 +754,8 @@
   color: #82634e;
 }
 .admin-login-art {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: end;
   padding: 9%;

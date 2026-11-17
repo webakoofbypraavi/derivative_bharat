@@ -1,0 +1,132 @@
+-- Import this file into the selected Hostinger MySQL database.
+SET NAMES utf8mb4;
+
+CREATE TABLE IF NOT EXISTS admin_users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'editor') NOT NULL DEFAULT 'admin',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS destinations (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(190) NOT NULL UNIQUE,
+  city VARCHAR(120) NOT NULL,
+  state VARCHAR(120) NOT NULL,
+  tagline VARCHAR(255) NOT NULL,
+  intro TEXT NOT NULL,
+  image_url VARCHAR(500) NOT NULL,
+  gallery JSON NOT NULL,
+  neighbourhoods JSON NOT NULL,
+  best_time VARCHAR(255) NOT NULL,
+  about TEXT NOT NULL,
+  food TEXT NOT NULL,
+  architecture TEXT NOT NULL,
+  local_stories TEXT NOT NULL,
+  status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS experiences (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(190) NOT NULL UNIQUE,
+  title VARCHAR(190) NOT NULL,
+  category_slug VARCHAR(120) NOT NULL,
+  category VARCHAR(120) NOT NULL,
+  destination_slug VARCHAR(120) NOT NULL,
+  destination VARCHAR(120) NOT NULL,
+  duration VARCHAR(80) NOT NULL,
+  price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  rating DECIMAL(3,2) NOT NULL DEFAULT 5,
+  reviews INT UNSIGNED NOT NULL DEFAULT 0,
+  summary TEXT NOT NULL,
+  image_url VARCHAR(500) NOT NULL,
+  language JSON NOT NULL,
+  itinerary JSON NOT NULL,
+  trending BOOLEAN NOT NULL DEFAULT FALSE,
+  popular BOOLEAN NOT NULL DEFAULT FALSE,
+  status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX experiences_destination_idx (destination_slug),
+  INDEX experiences_category_idx (category_slug)
+);
+
+CREATE TABLE IF NOT EXISTS tours (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(190) NOT NULL UNIQUE,
+  title VARCHAR(190) NOT NULL,
+  destination VARCHAR(190) NOT NULL,
+  destination_slug VARCHAR(120) NOT NULL,
+  category VARCHAR(120) NOT NULL,
+  category_slug VARCHAR(120) NOT NULL,
+  duration VARCHAR(80) NOT NULL,
+  duration_band VARCHAR(40) NOT NULL DEFAULT 'Multi-day',
+  price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  rating DECIMAL(3,2) NOT NULL DEFAULT 5,
+  reviews INT UNSIGNED NOT NULL DEFAULT 0,
+  language JSON NOT NULL,
+  image_url VARCHAR(500) NOT NULL,
+  gallery JSON NOT NULL,
+  summary TEXT NOT NULL,
+  overview LONGTEXT NOT NULL,
+  highlights JSON NOT NULL,
+  discover JSON NOT NULL,
+  itinerary JSON NOT NULL,
+  meeting_point TEXT NOT NULL,
+  included JSON NOT NULL,
+  excluded JSON NOT NULL,
+  important JSON NOT NULL,
+  faqs JSON NOT NULL,
+  trending BOOLEAN NOT NULL DEFAULT FALSE,
+  seasonal VARCHAR(190) NULL,
+  popular BOOLEAN NOT NULL DEFAULT FALSE,
+  status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX tours_destination_idx (destination_slug),
+  INDEX tours_category_idx (category_slug),
+  INDEX tours_status_idx (status)
+);
+
+CREATE TABLE IF NOT EXISTS stories (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(190) NOT NULL UNIQUE,
+  category VARCHAR(120) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  excerpt TEXT NOT NULL,
+  body LONGTEXT NOT NULL,
+  image_url VARCHAR(500) NOT NULL,
+  read_time VARCHAR(80) NOT NULL,
+  status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(120) NOT NULL UNIQUE,
+  title VARCHAR(190) NOT NULL,
+  short VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  image_url VARCHAR(500) NOT NULL,
+  status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS inquiries (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  phone VARCHAR(50) NULL,
+  preferred_city VARCHAR(120) NULL,
+  message TEXT NOT NULL,
+  status ENUM('new', 'contacted', 'closed') NOT NULL DEFAULT 'new',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX inquiries_status_idx (status)
+);
